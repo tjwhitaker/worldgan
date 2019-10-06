@@ -1,16 +1,65 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="/index.js"></script>
+    <link rel="stylesheet" href="/index.css">
   </head>
   <body>
     <header>
-      <h1>WorldGAN</h1>
+      <div class="wrapper">
+        <h1>WorldGAN</h1>
+      </div>
     </header>
     <main>
-      <div id="frame">
-        <canvas id="paint"></canvas>
+      <div class="wrapper">
+        <canvas id="paint" width="800px" height="450px"></canvas>
+
+        <p>Brush Content:</p>
+
+        <div class="brush-content">
+          <div class="button selected" onclick="selectBrushContent(this, 'mountain')">
+            <div class="swatch"></div>
+            <p class="title">Mountain</p>
+          </div>
+
+          <div class="button" onclick="selectBrushContent(this, 'forest')">
+            <div class="swatch"></div>
+            <p class="title">Forest</p>
+          </div>
+
+          <div class="button" onclick="selectBrushContent(this, 'plain')">
+            <div class="swatch"></div>
+            <p class="title">Plain</p>
+          </div>
+
+          <div class="button" onclick="selectBrushContent(this, 'water')">
+            <div class="swatch"></div>
+            <p class="title">Water</p>
+          </div>
+
+          <div class="button" onclick="selectBrushContent(this, 'desert')">
+            <div class="swatch"></div>
+            <p class="title">Desert</p>
+          </div>
+        </div>
+
+        <p>Brush Size:</p>
+
+        <div class="brush-size">
+          <div class="button" onclick="selectBrushSize(this, 'small')">
+            <p class="title">Small</p>
+          </div>
+          <div class="button selected" onclick="selectBrushSize(this, 'medium')">
+            <p class="title">Medium</p>
+          </div>
+          <div class="button" onclick="selectBrushSize(this, 'large')">
+            <p class="title">Large</p>
+          </div>
+        </div>
+        <div class="utilities">
+
+        </div>
       </div>
     </main>
+    <script src="/index.js"></script>
   </body>
 </html>
