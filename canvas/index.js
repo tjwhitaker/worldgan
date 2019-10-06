@@ -16,7 +16,7 @@ const canvas = document.getElementById('paint')
 const ctx = canvas.getContext('2d')
 const mouse = {x: 0, y: 0}
 
-ctx.lineWidth = 50
+ctx.lineWidth = 100
 ctx.lineJoin = 'round'
 ctx.lineCap = 'round'
 ctx.strokeStyle = '#757575'
@@ -70,4 +70,12 @@ function selectBrushSize(element, size) {
   element.classList.add('selected')
 
   ctx.lineWidth = brushSize[size]
+}
+
+function clearCanvas() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height)
+}
+
+function exportImage() {
+  
 }
