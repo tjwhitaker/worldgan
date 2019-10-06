@@ -77,5 +77,8 @@ function clearCanvas() {
 }
 
 function exportImage() {
-  
+  const data = canvas.toDataURL("image/png")
+  const w = window.open('about:blank', 'image from canvas')
+
+  w.document.write("<img src='" + data + "' />")
 }
