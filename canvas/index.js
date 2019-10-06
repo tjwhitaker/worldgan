@@ -1,0 +1,73 @@
+const brushContent = {
+  'mountain' : {'color': '#757575'},
+  'forest': {'color': '#1b5e20'},
+  'plain': {'color': '#00e676'},
+  'water': {'color': '#2196f3'},
+  'desert': {'color': '#ffe082'}
+}
+
+const brushSize = {
+  'small': 20,
+  'medium': 50,
+  'large': 100
+}
+
+const canvas = document.getElementById('paint')
+const ctx = canvas.getContext('2d')
+const mouse = {x: 0, y: 0}
+
+ctx.lineWidth = 50
+ctx.lineJoin = 'round'
+ctx.lineCap = 'round'
+ctx.strokeStyle = '#757575'
+
+canvas.addEventListener('mousemove', function(e) {
+  mouse.x = e.pageX - this.offsetLeft
+  mouse.y = e.pageY - this.offsetTop
+}, false)
+
+canvas.addEventListener('mousedown', function(e) {
+  ctx.beginPath()
+  ctx.moveTo(mouse.x, mouse.y)
+
+  canvas.addEventListener('mousemove', paint, false)
+}, false)
+
+canvas.addEventListener('mouseup', function(e) {
+  canvas.removeEventListener('mousemove', paint, false)
+}, false)
+
+canvas.addEventListener('mouseout', function(e) {
+  canvas.removeEventListener('mousemove', paint, false)
+}, false)
+
+const paint = function() {
+  ctx.lineTo(mouse.x, mouse.y)
+  ctx.stroke()
+}
+
+function selectBrushContent(element, content) {
+  // Remove selected class from all brush buttons
+  const buttons = element.parentElement.getElementsByClassName('button')
+
+  for (let button of buttons) {
+    button.classList.remove('selected')
+  }
+
+  // Add selected class to brush button
+  element.classList.add('selected')
+
+  ctx.strokeStyle = brushContent[content]['color']
+}
+
+function selectBrushSize(element, size) {
+  const buttons = element.parentElement.getElementsByClassName('button')
+
+  for (let button of buttons) {
+    button.classList.remove('selected')
+  }
+
+  element.classList.add('selected')
+
+  ctx.lineWidth = brushSize[size]
+}
