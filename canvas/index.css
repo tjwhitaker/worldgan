@@ -20,7 +20,7 @@ header {}
   display:block;
 }
 
-.brush-content, .brush-size {
+.brush-content, .brush-size, .utilities {
   display:flex;
   align-items:center;
   margin:20px 0;
@@ -69,6 +69,6 @@ header {}
   background-color: #ffe082;
 }
 
-.brush-content .button .title {
+.brush-content .button p {
   padding:0 10px;
 }
