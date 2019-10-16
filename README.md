@@ -17,6 +17,6 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ```
 
 ```
-~$ cd utilities
-~/utilities$ python heightmapper.py
+~$ cd utilities/map
+~/utilities/map$ npm install
 ```
