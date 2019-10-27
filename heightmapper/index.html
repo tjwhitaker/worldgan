@@ -1,0 +1,149 @@
+<!doctype html>
+<!--
+    Tangram: real-time WebGL rendering for OpenStreetMap
+
+    http://github.com/tangrams/tangram
+    http://mapzen.com
+-->
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Tangram Heightmapper</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
+    <style>
+        body {
+            margin: 0px;
+            border: 0px;
+            padding: 0px;
+        }
+
+        #map {
+            background: rgba(0, 0, 0, 0);
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            z-index: 0;
+        }
+
+        #help-wrapper, #new-wrapper {
+            visibility: hidden;
+            position: absolute;
+            width: 100%;
+            z-index: 3001;
+            background-color: grey;
+            top: 10%;
+            height: 90%;
+        }
+
+        #help-blocker {
+            visibility: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3000;
+            background-color: #666;
+            opacity: .5;
+            content: ' ';
+        }
+
+        #help, #new {
+            visibility: hidden;
+            position: relative;
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #666;
+            color: white;
+            padding: 5%;
+            font-family: verdana, sans-serif;
+            font-size: 12pt;
+            max-height: 60%;
+            overflow: scroll;
+            border: 2px solid white;
+        }
+
+        #help a{
+            color: #ddd;
+        }
+
+        .mz-bug-container {
+            display: none;
+        }
+
+        ::-webkit-scrollbar {
+            -webkit-appearance: none;
+            width: 7px;
+        }
+        ::-webkit-scrollbar-thumb {
+            border-radius: 4px;
+            background-color: rgba(0,0,0,.5);
+            -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+        }
+
+    </style>
+  </head>
+
+  <body>
+    <div id="new-wrapper">
+        <div id="new">
+            <ul>
+            <li><span style="color: #ee0000">NEW!</span> Enter your API key in the field provided to load terrain imagery past zoom level 3. <a style="color: #ee0000" href="http://mapzen.com/developers">Get your free API key here!</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="help-wrapper">
+        <div id="help">
+            
+            <p>
+            <a href="https://mapzen.com/products/tangram/">Tangram</a> Heightmapper
+            </p>
+
+            <p>
+            This is an elevation data browser, which "auto-exposes" the display so that the highest and lowest visible elevations are white and black. The result is a grayscale heightmap, suitable for use as a displacement map in 3D applications.</p>
+
+            <p><a href="https://mapzen.com/blog/tangram-heightmapper/" target="_blank">Here's a blog post about this tool</a>, with more explanations and examples!</p>
+
+            <p>Usage:
+            <ul>
+            <li>Uncheck "auto-expose" to set min and max height levels manually.</li>
+            <li>Click "export" to open the current view as an image in a new tab - then "Save As" to save the image to disk. (You may need to right-click the image to do this.)</li>
+            <li>Import the resulting image as a displacement map in a 3D application to generate a 3D model of the terrain. (<a href="https://github.com/tangrams/heightmapper/blob/gh-pages/exporting_to_blender.md" target="_blank">Here's a tutorial for doing this in Blender</a>.)</li>
+            <li>The "z:x scale factor" describes how "high" the current view is, on the z-axis, in terms of how wide the current view is on the x-axis. Multiplying this scale factor by the width of a 3D mesh in units x will tell you how high in units z your mesh should be after displacement in order to be true-scale.</li>
+            <li>Press the 'h' key to toggle interface visibility.</li>
+            </ul>
+            </p>
+
+            <p>Terrain data is coming from <a href="http://mapzen.com" target="_blank">Mapzen</a>'s <a href="https://mapzen.com/blog/elevation/" target="_blank">global terrain tiles</a>.</p>
+
+            <p>Check out the code or fork this project on <a href="https://github.com/tangrams/heightmapper" target="_blank">Github</a>!</p>
+
+
+
+        </div>
+    </div>
+    <div id="help-blocker"></div>
+    <div id="map"></div>
+
+    <!-- 3rd party libraries -->
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <!-- bog-standard leaflet URL hash -->
+    <script src="lib/leaflet-hash.js"></script>
+    <!-- A lightweight graphical user interface for changing variables in JavaScript.  -->
+    <script src="lib/dat.gui.min.js"></script>
+    <!-- https://github.com/eligrey/FileSaver.js  -->
+    <script src="lib/FileSaver.js"></script>
+    <!-- End of 3rd party libraries -->
+
+    <!-- Main tangram library -->
+    <script src="lib/tangram.min.js"></script>
+    
+    <!-- Demo module -->
+    <script src="main.js"></script>
+
+  </body>
+</html>
