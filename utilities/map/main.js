@@ -1,3 +1,4 @@
+const fs = require('fs')
 const puppeteer = require("puppeteer")
 
 const meta = []
@@ -37,6 +38,7 @@ for (i = 0; i < 1; i++) {
 
     // Log Results
     result = {
+      "file": i + ".png",
       "url": url,
       "lat": latitude,
       "lon": longitude,
@@ -52,3 +54,7 @@ for (i = 0; i < 1; i++) {
     await browser.close()
   })()
 }
+
+fs.writeFile('data/meta.json', meta, err => {
+  if (err) throw(err)
+})
