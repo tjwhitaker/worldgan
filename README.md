@@ -54,3 +54,17 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ~/utilities/map$ npm install
 ~/utilities/map$ npm start
 ```
+
+While script runs, it will save images (512 x 512 pixels) into the data folder. Once the script is done running, it will create a meta.json file containing an array of the following values for each image.
+
+```
+{
+  "file": filename,
+  "url": url,
+  "lat": latitude,
+  "lon": longitude,
+  "max": maxElevation,
+  "min": minElevation,
+  "sf": scaleFactor
+}
+```
