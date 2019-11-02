@@ -4,7 +4,9 @@ const puppeteer = require("puppeteer");
 (async () => {
   const meta = [];
 
+  // Loop some number of times
   for (i = 0; i < 2; i++) {
+  
     // Pick random location coordinates ([-90:90], [-180:180])
     const latitude = Math.random() * 180 - 90
     const longitude = Math.random() * 360 - 180
@@ -53,6 +55,7 @@ const puppeteer = require("puppeteer");
     await browser.close()
   }
   
+  // Write meta info for each file
   fs.writeFile('data/meta.json', JSON.stringify(meta), err => {
     if (err) {
       throw(err)
