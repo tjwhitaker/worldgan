@@ -1,6 +1,8 @@
 /*jslint browser: true*/
 /*global Tangram, gui */
 
+window.tilesLoaded = false;
+
 map = (function () {
     'use strict';
 
@@ -406,6 +408,7 @@ window.go = go;
                 // will be triggered when tiles are finished loading
                 // and also manually by the moveend event
                 view_complete: function() {
+                    window.tilesLoaded = true;
                 }
             });
             scene_loaded = true;
