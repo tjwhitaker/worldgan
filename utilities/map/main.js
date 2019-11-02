@@ -31,7 +31,7 @@ for (i = 0; i < 1; i++) {
     await page.waitFor(1000)
 
     // Screenshot and save
-    await page.screenshot({ path: "example.png" })
+    await page.screenshot({ path: "data/" + i + ".png" })
 
     // Log results
     console.log("Url: ", url)
