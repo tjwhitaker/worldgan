@@ -20,9 +20,10 @@ for (i = 0; i < 1; i++) {
     // Wait to let page load
     await page.waitForFunction("window.tilesLoaded == true")
 
-    // Get max + min elevation + scale factor
-    //
-    //
+    // Get scale factor, max and min elevation
+    maxElevation = await page.evaluate('gui.u_max')
+    minElevation = await page.evaluate('gui.u_min')
+    scaleFactor = await page.evaluate('gui.scaleFactor')    
 
     // Hide UI
     await page.keyboard.press("h")
@@ -39,8 +40,12 @@ for (i = 0; i < 1; i++) {
       }
     })
   
+    console.log("Url: ", "http://localhost:8000/#8/" + latitude + "/" + longitude)
     console.log("Latitude: ", latitude)
     console.log("Longitude: ", longitude)
+    console.log("max: ", maxElevation)
+    console.log("min: ", minElevation)
+    console.log("scale factor: ", scaleFactor)
     console.log("Dimensions:", dimensions)
   
     await browser.close()
