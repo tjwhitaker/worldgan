@@ -1,11 +1,10 @@
-const fs = require('fs')
-const puppeteer = require("puppeteer")
+const fs = require('fs');
+const puppeteer = require("puppeteer");
 
-const meta = []
+(async () => {
+  const meta = [];
 
-// Loop some number of times
-for (i = 0; i < 1; i++) {
-  (async () => {
+  for (i = 0; i < 2; i++) {
     // Pick random location coordinates ([-90:90], [-180:180])
     const latitude = Math.random() * 180 - 90
     const longitude = Math.random() * 360 - 180
@@ -52,9 +51,11 @@ for (i = 0; i < 1; i++) {
     meta.push(result)
   
     await browser.close()
-  })()
-}
-
-fs.writeFile('data/meta.json', meta, err => {
-  if (err) throw(err)
-})
+  }
+  
+  fs.writeFile('data/meta.json', JSON.stringify(meta), err => {
+    if (err) {
+      throw(err)
+    }
+  })
+})()
