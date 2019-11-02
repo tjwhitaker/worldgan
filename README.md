@@ -41,7 +41,7 @@ Proposal tex and pdf files.
 
 Random tools.
 
-Building a dataset for terrain maps. Run the heightmapper tool locally and then run the map utility. The map utility uses puppeteer, a headless browser API, to download heightmaps from the heightmapper tool we have running. We're going to use this to build the dataset.
+Building a dataset for terrain maps. Run the heightmapper tool locally and then run the datagenerator utility. The utility uses puppeteer, a headless browser API, to download heightmaps from the heightmapper tool we have running. We're going to use this to build the dataset.
 
 ```
 ~$ cd heightmapper
@@ -50,9 +50,9 @@ Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
 ```
 
 ```
-~$ cd utilities/map
-~/utilities/map$ npm install
-~/utilities/map$ npm start
+~$ cd utilities/datagenerator
+~/utilities/datagenerator$ npm install
+~/utilities/datagenerator$ npm start
 ```
 
 While script runs, it will save images (512 x 512 pixels) into the data folder. Once the script is done running, it will create a meta.json file containing an array of the following values for each image.
