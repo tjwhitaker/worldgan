@@ -3,9 +3,10 @@ const puppeteer = require("puppeteer")
 // Loop some number of times
 for (i = 0; i < 1; i++) {
   (async () => {
-    // Pick random location coordinates
+    // Pick random location coordinates ([-90:90], [-180:180])
     const latitude = Math.random() * 180 - 90
     const longitude = Math.random() * 360 - 180
+    const url = "http://localhost:8000/#8/" + latitude + "/" + longitude
 
     // Launch puppeteer
     const browser = await puppeteer.launch()
@@ -15,9 +16,9 @@ for (i = 0; i < 1; i++) {
     await page.setViewport({ width: 512, height: 512 })
     
     // Go to local heightmapper server
-    await page.goto("http://localhost:8000/#8/" + latitude + "/" + longitude)
+    await page.goto(url)
     
-    // Wait to let page load
+    // Wait to let tiles load
     await page.waitForFunction("window.tilesLoaded == true")
 
     // Get scale factor, max and min elevation
@@ -29,24 +30,16 @@ for (i = 0; i < 1; i++) {
     await page.keyboard.press("h")
     await page.waitFor(1000)
 
-    // S
+    // Screenshot and save
     await page.screenshot({ path: "example.png" })
-  
-    const dimensions = await page.evaluate(() => {
-      return {
-        width: document.documentElement.clientWidth,
-        height: document.documentElement.clientHeight,
-        deviceScaleFactor: window.devicePixelRatio
-      }
-    })
-  
-    console.log("Url: ", "http://localhost:8000/#8/" + latitude + "/" + longitude)
+
+    // Log results
+    console.log("Url: ", url)
     console.log("Latitude: ", latitude)
     console.log("Longitude: ", longitude)
     console.log("max: ", maxElevation)
     console.log("min: ", minElevation)
     console.log("scale factor: ", scaleFactor)
-    console.log("Dimensions:", dimensions)
   
     await browser.close()
   })()
