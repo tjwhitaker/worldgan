@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer")
 
+const meta = []
+
 // Loop some number of times
 for (i = 0; i < 1; i++) {
   (async () => {
@@ -22,9 +24,9 @@ for (i = 0; i < 1; i++) {
     await page.waitForFunction("window.tilesLoaded == true")
 
     // Get scale factor, max and min elevation
-    maxElevation = await page.evaluate('gui.u_max')
-    minElevation = await page.evaluate('gui.u_min')
-    scaleFactor = await page.evaluate('gui.scaleFactor')    
+    maxElevation = await page.evaluate('Number(gui.u_max)')
+    minElevation = await page.evaluate('Number(gui.u_min)')
+    scaleFactor = await page.evaluate('Number(gui.scaleFactor)')    
 
     // Hide UI
     await page.keyboard.press("h")
@@ -33,13 +35,19 @@ for (i = 0; i < 1; i++) {
     // Screenshot and save
     await page.screenshot({ path: "data/" + i + ".png" })
 
-    // Log results
-    console.log("Url: ", url)
-    console.log("Latitude: ", latitude)
-    console.log("Longitude: ", longitude)
-    console.log("max: ", maxElevation)
-    console.log("min: ", minElevation)
-    console.log("scale factor: ", scaleFactor)
+    // Log Results
+    result = {
+      "url": url,
+      "lat": latitude,
+      "lon": longitude,
+      "max": maxElevation,
+      "min": minElevation,
+      "sf": scaleFactor
+    }
+
+    console.log(result)
+
+    meta.push(result)
   
     await browser.close()
   })()
