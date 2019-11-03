@@ -5,7 +5,7 @@ const puppeteer = require("puppeteer");
   const meta = [];
 
   // Loop some number of times
-  for (i = 0; i < 2; i++) {
+  for (i = 0; i < 1000; i++) {
   
     // Pick random location coordinates ([-90:90], [-180:180])
     const latitude = Math.random() * 180 - 90
@@ -25,6 +25,9 @@ const puppeteer = require("puppeteer");
     // Wait to let tiles load
     await page.waitForFunction("window.tilesLoaded == true")
 
+    // Wait 2 seconds to assure assets loaded
+    await page.waitFor(2000)
+
     // Get scale factor, max and min elevation
     maxElevation = await page.evaluate('Number(gui.u_max)')
     minElevation = await page.evaluate('Number(gui.u_min)')
@@ -34,23 +37,28 @@ const puppeteer = require("puppeteer");
     await page.keyboard.press("h")
     await page.waitFor(1000)
 
-    // Screenshot and save
-    await page.screenshot({ path: "data/" + i + ".png" })
-
-    // Log Results
-    result = {
-      "file": i + ".png",
-      "url": url,
-      "lat": latitude,
-      "lon": longitude,
-      "max": maxElevation,
-      "min": minElevation,
-      "sf": scaleFactor
+    if (maxElevation == 10 && minElevation == 0) {
+      console.log("Point is over ocean. Not saving.")
     }
+    else {
+      // Screenshot and save
+      await page.screenshot({ path: "data/" + i + ".png" })
 
-    console.log(result)
+      // Log Results
+      result = {
+        "file": i + ".png",
+        "url": url,
+        "lat": latitude,
+        "lon": longitude,
+        "max": maxElevation,
+        "min": minElevation,
+        "sf": scaleFactor
+      }
 
-    meta.push(result)
+      console.log(result)
+
+      meta.push(result)
+    }
   
     await browser.close()
   }
