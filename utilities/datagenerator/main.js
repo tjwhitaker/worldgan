@@ -24,9 +24,6 @@ const puppeteer = require("puppeteer")
     // Wait to let tiles load
     await page.waitForFunction("window.tilesLoaded == true")
 
-    // Wait 2 seconds to assure assets loaded
-    await page.waitFor(2000)
-
     // Get scale factor, max and min elevation
     maxElevation = await page.evaluate("Number(gui.u_max)")
     minElevation = await page.evaluate("Number(gui.u_min)")
