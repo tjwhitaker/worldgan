@@ -1,9 +1,9 @@
 const brushContent = {
-  'mountain' : {'color': '#757575'},
-  'forest': {'color': '#1b5e20'},
-  'plain': {'color': '#00e676'},
-  'water': {'color': '#2196f3'},
-  'desert': {'color': '#ffe082'}
+  'mountains' : {'color': '#757575'},
+  'hills': {'color': '#1b5e20'},
+  'plains': {'color': '#00e676'},
+  'rivers': {'color': '#2196f3'},
+  'cliffs': {'color': '#ffe082'}
 }
 
 const brushSize = {
