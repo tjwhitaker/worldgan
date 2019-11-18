@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="/index.css">
+    <link rel="stylesheet" href="/index.css" />
   </head>
   <body>
     <header>
@@ -11,12 +11,15 @@
     </header>
     <main>
       <div class="wrapper">
-        <canvas id="paint" width="512px" height="512px"></canvas>
+        <canvas id="paint" width="256px" height="256px"></canvas>
 
         <p>Brush Content:</p>
 
         <div class="brush-content">
-          <div class="button selected" onclick="selectBrushContent(this, 'mountains')">
+          <div
+            class="button selected"
+            onclick="selectBrushContent(this, 'mountains')"
+          >
             <div class="swatch"></div>
             <p>Mountain</p>
           </div>

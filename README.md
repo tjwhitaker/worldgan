@@ -7,6 +7,7 @@
 - Checkpoint 1: https://www.youtube.com/watch?v=jP5bdHnInEw
 - Checkpoint 2: https://www.youtube.com/watch?v=-EoIp0KwEag
 - Checkpoint 3: https://www.youtube.com/watch?v=YByEOAzlYIo
+- Checkpoint 4: https://www.youtube.com/watch?v=OBWqvTyUInY
 
 ## Canvas
 
