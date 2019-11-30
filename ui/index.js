@@ -1,45 +1,61 @@
 const brushContent = {
-  'mountains' : {'color': '#757575'},
-  'hills': {'color': '#1b5e20'},
-  'plains': {'color': '#00e676'},
-  'rivers': {'color': '#2196f3'},
-  'cliffs': {'color': '#ffe082'}
+  mountains: { color: "#757575" },
+  hills: { color: "#1b5e20" },
+  plains: { color: "#00e676" },
+  rivers: { color: "#2196f3" },
+  terrace: { color: "#ffe082" }
 }
 
 const brushSize = {
-  'small': 20,
-  'medium': 50,
-  'large': 100
+  small: 20,
+  medium: 50,
+  large: 100
 }
 
-const canvas = document.getElementById('paint')
-const ctx = canvas.getContext('2d')
-const mouse = {x: 0, y: 0}
+const canvas = document.getElementById("paint")
+const ctx = canvas.getContext("2d")
+const mouse = { x: 0, y: 0 }
 
 ctx.lineWidth = 100
-ctx.lineJoin = 'round'
-ctx.lineCap = 'round'
-ctx.strokeStyle = '#757575'
+ctx.lineJoin = "round"
+ctx.lineCap = "round"
+ctx.strokeStyle = "#757575"
 
-canvas.addEventListener('mousemove', function(e) {
-  mouse.x = e.pageX - this.offsetLeft
-  mouse.y = e.pageY - this.offsetTop
-}, false)
+canvas.addEventListener(
+  "mousemove",
+  function(e) {
+    mouse.x = e.pageX - this.offsetLeft
+    mouse.y = e.pageY - this.offsetTop
+  },
+  false
+)
 
-canvas.addEventListener('mousedown', function(e) {
-  ctx.beginPath()
-  ctx.moveTo(mouse.x, mouse.y)
+canvas.addEventListener(
+  "mousedown",
+  function(e) {
+    ctx.beginPath()
+    ctx.moveTo(mouse.x, mouse.y)
 
-  canvas.addEventListener('mousemove', paint, false)
-}, false)
+    canvas.addEventListener("mousemove", paint, false)
+  },
+  false
+)
 
-canvas.addEventListener('mouseup', function(e) {
-  canvas.removeEventListener('mousemove', paint, false)
-}, false)
+canvas.addEventListener(
+  "mouseup",
+  function(e) {
+    canvas.removeEventListener("mousemove", paint, false)
+  },
+  false
+)
 
-canvas.addEventListener('mouseout', function(e) {
-  canvas.removeEventListener('mousemove', paint, false)
-}, false)
+canvas.addEventListener(
+  "mouseout",
+  function(e) {
+    canvas.removeEventListener("mousemove", paint, false)
+  },
+  false
+)
 
 const paint = function() {
   ctx.lineTo(mouse.x, mouse.y)
@@ -48,26 +64,26 @@ const paint = function() {
 
 function selectBrushContent(element, content) {
   // Remove selected class from all brush buttons
-  const buttons = element.parentElement.getElementsByClassName('button')
+  const buttons = element.parentElement.getElementsByClassName("button")
 
   for (let button of buttons) {
-    button.classList.remove('selected')
+    button.classList.remove("selected")
   }
 
   // Add selected class to brush button
-  element.classList.add('selected')
+  element.classList.add("selected")
 
-  ctx.strokeStyle = brushContent[content]['color']
+  ctx.strokeStyle = brushContent[content]["color"]
 }
 
 function selectBrushSize(element, size) {
-  const buttons = element.parentElement.getElementsByClassName('button')
+  const buttons = element.parentElement.getElementsByClassName("button")
 
   for (let button of buttons) {
-    button.classList.remove('selected')
+    button.classList.remove("selected")
   }
 
-  element.classList.add('selected')
+  element.classList.add("selected")
 
   ctx.lineWidth = brushSize[size]
 }
@@ -78,7 +94,7 @@ function clearCanvas() {
 
 function exportImage() {
   const data = canvas.toDataURL("image/png")
-  const w = window.open('about:blank', 'image from canvas')
+  const w = window.open("about:blank", "image from canvas")
 
   w.document.write("<img src='" + data + "' />")
 }
