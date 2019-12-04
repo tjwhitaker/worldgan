@@ -20,7 +20,13 @@ A paint-like GUI. Simple HTML/CSS/JS. Run with a simple web server.
 
 ## Data
 
-This folder will hold the terrain and splatmap datasets for training our GAN.
+Split into folders of batches.
+
+A simple training set.
+
+An augmented training set (flipped + rotated)
+
+A generated dataset for cyclegan.
 
 ## Heightmapper
 
@@ -70,3 +76,7 @@ While script runs, it will save images (512 x 512 pixels) into the data folder. 
   "sf": scaleFactor
 }
 ```
+
+Data Augmentator
+
+Used to expand our training set data.
