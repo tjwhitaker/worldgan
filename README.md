@@ -18,6 +18,14 @@ A paint-like GUI. Simple HTML/CSS/JS. Run with a simple web server.
 ~/canvas$ python -m http.server
 ```
 
+## App
+
+A flask app.
+
+```
+~/app$ env FLASK_APP=server.py flask run
+```
+
 ## Data
 
 Split into folders of batches.
