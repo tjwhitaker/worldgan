@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2019.9.15)  6 DEC 2019 11:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2019.9.15)  6 DEC 2019 16:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -145,46 +145,60 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 <ui.png, id=10, 500.87125pt x 830.10126pt>
 File: ui.png Graphic file (type png)
  <use ui.png>
-Package pdftex.def Info: ui.png used on input line 57.
+Package pdftex.def Info: ui.png used on input line 61.
 (pdftex.def)             Requested size: 229.5pt x 380.3566pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 6412) in paragraph at lines 65--66
+Underfull \hbox (badness 6412) in paragraph at lines 69--70
 \OT1/cmr/m/n/10 Generative ad-ver-sar-ial net-works need a good
  []
 
+[2 <./ui.png>] (./paper.bbl
+Underfull \vbox (badness 7851) has occurred while \output is active []
 
-Underfull \vbox (badness 1688) has occurred while \output is active []
+ [3]
+Missing character: There is no Ã in font cmr10!
+Missing character: There is no ¶ in font cmr10!
 
- [2 <./ui.png>]
-Underfull \hbox (badness 1448) in paragraph at lines 90--91
-\OT1/cmr/m/n/10 We trained two mod-els on this ini-tial dataset,
+Underfull \hbox (badness 1342) in paragraph at lines 9--16
+[]\OT1/cmr/m/n/10 Adam Paszke, Sam Gross, Fran-cisco Massa,
  []
 
-(./paper.bbl
+
+Underfull \hbox (badness 1184) in paragraph at lines 9--16
+\OT1/cmr/m/n/10 Ed-ward Yang, Zach De-Vito, Mar-tin Rai-son,
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 9--16
+\OT1/cmr/m/n/10 tala.  Py-torch: An im-per-a-tive style, high-
+ []
+
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ¥ in font cmr10!
-) [3] (./paper.aux) ) 
+) [4
+
+] (./paper.aux) ) 
 Here is how much of TeX's memory you used:
- 1499 strings out of 494910
- 21309 string characters out of 6179836
- 78917 words of memory out of 5000000
- 4797 multiletter control sequences out of 15000+600000
+ 1502 strings out of 494910
+ 21368 string characters out of 6179836
+ 79928 words of memory out of 5000000
+ 4800 multiletter control sequences out of 15000+600000
  7895 words of font info for 28 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  37i,7n,23p,561b,221s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-bx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
-b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
-/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-Output written on paper.pdf (3 pages, 98205 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></
+usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/sha
+re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on paper.pdf (4 pages, 100082 bytes).
 PDF statistics:
- 37 PDF objects out of 1000 (max. 8388607)
- 24 compressed objects within 1 object stream
+ 40 PDF objects out of 1000 (max. 8388607)
+ 26 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

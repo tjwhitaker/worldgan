@@ -1,5 +1,19 @@
 \begin{thebibliography}{1}
 
+\bibitem{isola2016imagetoimage}
+Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, and Alexei~A. Efros.
+\newblock Image-to-image translation with conditional adversarial networks,
+  2016.
+
+\bibitem{paszke2019pytorch}
+Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
+  Chanan, Trevor Killeen, Zeming Lin, Natalia Gimelshein, Luca Antiga, Alban
+  Desmaison, Andreas Köpf, Edward Yang, Zach DeVito, Martin Raison, Alykhan
+  Tejani, Sasank Chilamkurthy, Benoit Steiner, Lu~Fang, Junjie Bai, and Soumith
+  Chintala.
+\newblock Pytorch: An imperative style, high-performance deep learning library,
+  2019.
+
 \bibitem{perez2017effectiveness}
 Luis Perez and Jason Wang.
 \newblock The effectiveness of data augmentation in image classification using
@@ -12,11 +26,16 @@ Alec Radford, Luke Metz, and Soumith Chintala.
 
 \bibitem{richardson2016mapzen}
 Peter Richardson.
-\newblock {Heightmapper}, September 2016.
+\newblock Tangrams heightmapper, 2016.
 
 \bibitem{summerville2017procedural}
 Adam Summerville, Sam Snodgrass, Matthew Guzdial, Christoffer Holmgård, Amy~K.
   Hoover, Aaron Isaksen, Andy Nealen, and Julian Togelius.
 \newblock Procedural content generation via machine learning (pcgml), 2017.
+
+\bibitem{zhu2017unpaired}
+Jun-Yan Zhu, Taesung Park, Phillip Isola, and Alexei~A. Efros.
+\newblock Unpaired image-to-image translation using cycle-consistent
+  adversarial networks, 2017.
 
 \end{thebibliography}

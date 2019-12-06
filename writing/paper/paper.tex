@@ -1,7 +1,7 @@
 \documentclass[twocolumn]{article}
 \usepackage{graphicx}
 
-\title{WorldGAN: 3D Environment Generation Using Deep Adversarial Networks}
+\title{Conditional 3D Environment Generation Using Deep Adversarial Networks}
 
 \author{Tim Whitaker \\ Colorado State University}
 
@@ -37,9 +37,13 @@
 	
 	Both Pix2Pix and CycleGAN are based on the deep convolutional generative adversarial network architecture proposd by Radford et al. in 2015 \cite{radford2015unsupervised}.
 	
-	\subsubsection{Pix2Pix}
+	\subsubsection{Pix2Pix}	
+	
+	Pix2Pix introduces a a generalized approach to image to image translation problems.  Their model learns not only a mapping between input and output images, but it also learns a loss function between the two image datasets. This allows this model to be used for a variety of image tasks that would originally need very different model and loss configurations \cite{isola2016imagetoimage}.
 	
 	\subsubsection{CycleGAN}
+	
+	CycleGAN introduces the idea of cycle consistency loss. It works by measuring the loss of a mapping from one distribution to another and then back to the original distribution again. This approach allows for good generalization and the advantage of not needing specifically paired images in the training distributions. This can save a lot of time in building large datasets, but it can lose out on the specificity offered by Pix2Pix \cite{zhu2017unpaired}.
 
 	\subsection{Related Work}
 
@@ -87,6 +91,8 @@
 	\subsection{Training The Models}
 	
 	We trained a total of 4 models. Pix2Pix and CycleGAN on both the original batch of training data and the augmented batch. The training was performed on my desktop GPU enabled PC. The relevant specifications include an Nvidia GTX 1080ti GPU with 11 GB of memory, an Intel i7 8700k processor, a 500GB solid state hard drive, and 32 GB of RAM.
+	
+	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch}.
 	
 	\subsubsection{Pix2Pix}
 	~1 hour training time.
