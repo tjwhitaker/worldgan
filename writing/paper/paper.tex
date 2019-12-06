@@ -1,4 +1,5 @@
 \documentclass[twocolumn]{article}
+\usepackage{graphicx}
 
 \title{WorldGAN: 3D Environment Generation Using Deep Adversarial Networks}
 
@@ -34,13 +35,15 @@
 	
 	We are going to evaluate two implementations of a specialized form of generative adversarial networks designed to perform conditional image to image translation. The two models we are using are called Pix2Pix and CycleGAN.
 	
+	Both Pix2Pix and CycleGAN are based on the deep convolutional generative adversarial network architecture proposd by Radford et al. in 2015 \cite{radford2015unsupervised}.
+	
 	\subsubsection{Pix2Pix}
 	
 	\subsubsection{CycleGAN}
 
 	\subsection{Related Work}
 
-	Nvidia GauGAN. 	
+	Nvidia GauGAN.
 	
 	\section{Methodology}
 	
@@ -48,36 +51,42 @@
 	
 	\subsection{User Interface Application}
 	
-	The user interface is a web based javascript application. The application allows a user to paint a semantically significant image using predefined brushes.
+	The user interface is a web based javascript application that allows a user to paint a semantically significant image using predefined brushes. We include tools to change th brush size and export or clear the image. The canvas size is 512 x 512 pixels, and these images are resized automatically when passed to our neural network.
+
+	\begin{figure}[h!]
+	\includegraphics[width=1\columnwidth]{ui.png} 
+	\caption{The user interace application}
+	\end{figure}
 	
-	The backend is powered by a Flask API.
+	The backend is powered by a Flask API. We set up an endpoint to be able to evaluate a drawn image on our trained models.
 	
 	\subsection{The Dataset}
 	
-	Generative adversarial networks need a good amoount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet large enough dataset. In order to achieve this, we use terrain data of the earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
+	Generative adversarial networks need a good amoount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet sizable dataset. In order to achieve this, we use terrain data of the earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
 
 	\subsubsection{Training Data}
 	
-	I used an open source map tool https://github.com/tangrams/heightmapper. This tool is an interactive application elevation data gathered from Mapzen's global elevation service https://www.mapzen.com/blog/elevation/.
+	I used an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}.
 	
-	I then built a program that controls a headless browser using an open source library called puppeteer https://github.com/puppeteer/puppeteer. This script loads a random coordinate, checks if we are over land and saves an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
+	I then built a program that controls a headless browser using an open source library developed by Google called puppeteer. This script loads a random coordinate, checks if the coordinate is over land and if so, then we save an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
 	
-	I then started manually building the usermap training set using the user interface application I built. For each image in the heightmap training set, I would paint a usermap to represent that heightmap, using the semantically significant brushes that most closely matched the terrain (mountains, hills, plains, rivers, terrace).
+	We then started manually building the usermap training set using the WorldGAN user interface application. For each image in the heightmap training set, We paint a usermap to represent that heightmap, using the semantically significant brushes that most closely match the terrain (mountains, hills, plains, rivers, and terraces). This process is a subjective one and all usermaps were painted by myself. This does bias the model to produce images according to how I read the heightmaps.
 
-	After this process we are left with 258 paired usermaps and heightmaps. We group all of these together into batch one.
+	After this process we are left with 259 paired usermaps and heightmaps. We group all of these together into a batch to be trained on.
+
+	Creating the usermaps by hand is quite time consuming, and I wanted to experiment with models trained on a large dataset. We accomplish this by augmenting our first batch with simple transformations in order to artificially increase the number of images we can train on. Image augmentations are a well researched and effective appoach to improving neural network performance \cite{perez2017effectiveness}.
 	
-	We then created a second batch by taking batch one and augmenting the images to increase the size of a training set by 5x. We performed 5 operations on each usermap and heightmap. We mirror horizontally, flip vertically, rotate 90 derees, rotate 180 degrees, and rotate 270 degrees.	
+	We performed 5 operations on each usermap and heightmap. We mirror horizontally, flip vertically, rotate 90 derees, rotate 180 degrees, and rotate 270 degrees.	All of the resulting images are gathered into a second batch and we end up with 1548 paired images (a 5x increase).
 	
-	Pix2pix requires the training data from both the heightmaps and usermaps need to be paired. We stack each pair of training images horizontally and save this new image into our training batch. The resulting images are 1024 x 512 pixels.
-		
-		
+	Before training the networks, we need to perform one more preprocessing step. Pix2Pix requires paired images to be combined into a single side by side image. We stack each pair of usermap and heightmap and save these images into separate batches spcifically for Pix2Pix. Each resulting image is 1024 x 512 pixels. CycleGAN does not need this preprocessing step and can be trained on images in different directories.
+			
 	\subsubsection{Test Data}
 	
-	The test data is a collection of 5 usermaps I drew that are designed to be representativ of a variety of environments a user might draw. These 5 environments include a mountainous region, a mountainous region fading into a hilly region, a hilly region fading into a flat region, a region with a main river and many sub rivers running through mountains, and a combined region containing mountains, hills, plains and a river.
+	The test data is a collection of 10 usermaps I drew that are designed to be representative of a variety of environments a user might draw. These 5 environments include mountainous regions, hilly regions, flat regions and combined regions.
 	
 	\subsection{Training The Models}
 	
-	We trained two models on this initial dataset, Pix2Pix and CycleGAN. GTX 1080ti GPU. i7 8700k. processor.
+	We trained a total of 4 models. Pix2Pix and CycleGAN on both the original batch of training data and the augmented batch. The training was performed on my desktop GPU enabled PC. The relevant specifications include an Nvidia GTX 1080ti GPU with 11 GB of memory, an Intel i7 8700k processor, a 500GB solid state hard drive, and 32 GB of RAM.
 	
 	\subsubsection{Pix2Pix}
 	~1 hour training time.
