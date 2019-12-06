@@ -10,7 +10,7 @@
 	
 	\section{Abstract}
 	
-	We introduce a method and application for generating 3D environments with generative adversarial networks. The outputs from our networks are able to be imported into popular 3d modeling software like unreal, unity or blender. We've created a simple and easy to use web based interface to allow a user to control the output of the generated environment by painting using predefined brushes that represent terrain varieties, mountains, hills, terraces, plains, and rivers.
+	We introduce a method and application for generating 3D environments with generative adversarial networks. The outputs from our networks are able to be imported into popular three dimensional modeling software like Unreal, Unity and Blender. We've created a simple and easy to use web based interface to allow a user to control the output of the generated environment by painting with predefined brushes that represent terrain varieties: mountains, hills, terraces, plains, and rivers.
 	
 	\section{Introduction}
 
@@ -18,19 +18,25 @@
 	
 	The motivations for this project are to make it easier for game, world or environment designers to create realistic environments procedurally while giving the designer more control over the results.
 	
-	We aim to create a simple and easy to use GUI interface for a user to paint a 2 dimensional semantically significant image map. We then pass the user created image map through a generative adversarial network trained on elevation data gathered from the Earth in order to generate a realistic terrain heightmap that approximately represents the user defined map. The resulting heightmap produced from the neural network can then be uploaded into any of the popular 3 dimensional rendering software including Unity, Unreal, Blender or World Machine.
+	We aim to create a simple and easy to use GUI interface for a user to paint a 2 dimensional semantically significant image map. We then pass the user created image map through a generative adversarial network trained on elevation data gathered from the Earth in order to generate a realistic terrain heightmap that approximately represents the user defined map. The resulting heightmap produced from the neural network can then be uploaded into any of the popular 3 dimensional rendering softwares including Unity, Unreal, Blender or World Machine.
 	
 	\section{Background}
 	
-	This project involves work touching on a number of fields of computer science. Combining machine learning, procedural generation, and three dimensional content is a relatively new area of research. 
-	
+	This project explores the new paradigm of 3 dimensional procedurally generated content via machine learning.
+		
 	\subsection{Procedural Content Generation}
 	
-	Procedural content generation is an algorithmic and stochastic process used in art, games, music and film. As a paradigm for content generation, it is used to increase replayability, variability, and flexibility. It can reduce production cost and effort and it can save on storage space.
+	Procedural content generation is an algorithmic and stochastic process used in art, games, music and film. As a paradigm for content generation, it is used to increase replayability, variability, flexibility and reduce production cost, effort storage space \cite{summerville2017procedural}.
 
 	\subsection{Generative Adversarial Networks}
 	
 	Neural networks have become a pervasive part of computer science. It allows for a powerful model of learning patterns from complex datasets. Generative adversarial networks work by synthesizing novel data according to patterns it learns in the training set. We evaluate two models of conditional generative adversarial networks to achieve image to image translation.
+	
+	We are going to evaluate two implementations of a specialized form of generative adversarial networks designed to perform conditional image to image translation. The two models we are using are called Pix2Pix and CycleGAN.
+	
+	\subsubsection{Pix2Pix}
+	
+	\subsubsection{CycleGAN}
 
 	\subsection{Related Work}
 
@@ -47,6 +53,8 @@
 	The backend is powered by a Flask API.
 	
 	\subsection{The Dataset}
+	
+	Generative adversarial networks need a good amoount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet large enough dataset. In order to achieve this, we use terrain data of the earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
 
 	\subsubsection{Training Data}
 	
@@ -90,7 +98,8 @@
 	\section{Conclusion}
 	
 	\subsection{Future Work}
-	
-	\bibliography{}
-	
+
+	\bibliographystyle{plain}
+	\bibliography{references}	
+  
 \end{document}
