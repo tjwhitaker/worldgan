@@ -109,5 +109,15 @@ function generate() {
   xhr.open('POST', '/generate', true);
   xhr.setRequestHeader('Content-Type', 'application/json');
 
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4) {
+      if(xhr.status == 200) {
+        var obj = JSON.parse(xhr.responseText);
+        
+        console.log(obj);
+      }
+    }
+  };
+
   xhr.send(json);
 }

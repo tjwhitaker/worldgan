@@ -1,5 +1,5 @@
 import base64
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, send_file
 from subprocess import call
 
 app = Flask(__name__)
@@ -16,7 +16,6 @@ def generate_heightmap():
   with open("generate/a.png", "wb") as fh:
     fh.write(base64.decodebytes(b64.encode()))
 
-  #call(["ls", "../pytorch-CycleGAN-and-pix2pix"])
   #call(["python", "../pytorch-CycleGAN-and-pix2pix/test.py"])
 
-  return "hi"
+  #return send_file("generate/results/b.png", mimetype="image/png")
