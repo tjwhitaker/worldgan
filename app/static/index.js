@@ -98,3 +98,16 @@ function exportImage() {
 
   w.document.write("<img src='" + data + "' />")
 }
+
+function generate() {
+  const data = canvas.toDataURL("image/png");
+  const image = data.replace("data:image/png;base64,", "");
+
+  var json = JSON.stringify({'b64': image});
+
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/generate', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+
+  xhr.send(json);
+}
