@@ -100,24 +100,28 @@ function exportImage() {
 }
 
 function generate() {
-  const data = canvas.toDataURL("image/png");
-  const image = data.replace("data:image/png;base64,", "");
+  const data = canvas.toDataURL("image/png")
+  const image = data.replace("data:image/png;base64,", "")
 
-  var json = JSON.stringify({'b64': image});
+  var json = JSON.stringify({ b64: image })
 
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/generate', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
+  var xhr = new XMLHttpRequest()
+  xhr.open("POST", "/generate", true)
+  xhr.setRequestHeader("Content-Type", "application/json")
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState == 4) {
-      if(xhr.status == 200) {
-        var obj = JSON.parse(xhr.responseText);
-        
-        console.log(obj);
+      if (xhr.status == 200) {
+        results = document.getElementById("results")
+        results.innerHTML =
+          '<img src="data:image/png;base64,' + xhr.responseText + '"/>'
       }
     }
-  };
+  }
 
-  xhr.send(json);
+  xhr.send(json)
+
+  //spinner
+  results = document.getElementById("results")
+  results.innerHTML = '<img src="/static/spinner.svg"/>'
 }

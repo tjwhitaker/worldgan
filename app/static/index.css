@@ -2,41 +2,55 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   background: #f4f4f4;
 }
 
-header {}
+header {
+}
 
 .wrapper {
-  margin:0 auto;
-  width:800px;
+  margin: 0 auto;
+  width: 1200px;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
 }
 
+#results {
+  width: 514px;
+}
+#results img {
+  width: 514px;
+}
 
 #paint {
-  background:white;
-  border:1px solid #666;
-  display:block;
+  background: white;
+  border: 1px solid #666;
+  display: block;
 }
 
-.brush-content, .brush-size, .utilities {
-  display:flex;
-  align-items:center;
-  margin:20px 0;
+.brush-content,
+.brush-size,
+.utilities {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
 }
 
 .button {
-  display:flex;
-  align-items:center;
-  border:1px solid #ccc;
-  padding:0 10px;
-  margin-right:20px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 0 10px;
+  margin-right: 20px;
   user-select: none;
 }
 
 .button:hover {
-  cursor:pointer;
+  cursor: pointer;
 }
 
 .button.selected {
@@ -44,9 +58,9 @@ header {}
 }
 
 .brush-content .button .swatch {
-  width:20px;
-  height:20px;
-  border-radius:50%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
 }
 
 .brush-content .button:nth-child(1) .swatch {
@@ -70,5 +84,5 @@ header {}
 }
 
 .brush-content .button p {
-  padding:0 10px;
+  padding: 0 10px;
 }
