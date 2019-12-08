@@ -28,10 +28,18 @@ Alec Radford, Luke Metz, and Soumith Chintala.
 Peter Richardson.
 \newblock Tangrams heightmapper, 2016.
 
+\bibitem{starscenesoftware2006}
+Star~Scene Software.
+\newblock Fractscape, 2006.
+
 \bibitem{summerville2017procedural}
 Adam Summerville, Sam Snodgrass, Matthew Guzdial, Christoffer Holmgård, Amy~K.
   Hoover, Aaron Isaksen, Andy Nealen, and Julian Togelius.
 \newblock Procedural content generation via machine learning (pcgml), 2017.
+
+\bibitem{junyanzhu2017github}
+Jun-Yan Zhu.
+\newblock Pytorch pix2pix and cyclegan, 2017.
 
 \bibitem{zhu2017unpaired}
 Jun-Yan Zhu, Taesung Park, Phillip Isola, and Alexei~A. Efros.

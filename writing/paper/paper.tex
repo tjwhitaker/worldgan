@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{floatpag}
 
 \title{3D Environment Generation Using Conditional Adversarial Networks}
 
@@ -130,7 +131,7 @@
 	
 	We trained a total of 4 models. Pix2Pix and CycleGAN on both the original and augmented batch of training data. The training was performed on my desktop GPU enabled PC. The operating system is Ubuntu 18.04. We train on a Nvidia GTX 1080ti GPU with 11 GB of memory, an Intel i7 8700k processor, a 500GB solid state hard drive, and 32 GB of RAM.
 	
-	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch} and are trained for 200 epochs.
+	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch} and are trained for 200 epochs. We use the open source repo implemented by the Jun-Yan Zhu, who published the research on both models \cite{junyanzhu2017github}.
 	
 	\subsubsection{Pix2Pix}
 		Our pix2pix model contained a total of 57.183 million parameters. The generator network contains 54.414 million parameters and the discriminator contains 2.769 million parameters. The original batch of data took approximately 45 minutes to train. The augmented batch took approximately 4 hours to train.
@@ -140,11 +141,11 @@
 
 	\subsection{Visualizations Using 3D Software}
 	
-	The resulting heightmaps can be imported into popular 3d modeling software including Unity, Unreal, Blender, and World Machine. For the purposes of visualizing these results, and because of the limited support for Linux in all of the previously listed softwares, we visualize results using a demo application called Fractscape. Fractscape includes elevation based texture mapping which happens to work very well for visualizing our terrain elevation data. Unity, Unreal, Blender and World Machine have a different workflow for painting textures, so using the generality of fractscape works best for our visualizations.
+	The resulting heightmaps can be imported into popular 3d modeling software including Unity, Unreal, Blender, and World Machine. For the purposes of visualizing these results, and because of the limited support for Linux in all of the previously listed softwares, we visualize results using a demo application called Fractscape. Fractscape includes elevation based texture mapping which happens to work very well for visualizing our terrain elevation data. Unity, Unreal, Blender and World Machine have a different workflow for painting textures, so using the generality of fractscape works best for our visualizations \cite{starscenesoftware2006}.
 
 	\section{Results}
 	
-	Subjective results of networks show that pix2pix performs much better than cyclegan. For the specfic task of segmented image translation, paired training data allows the network to learn the meaning of the segmentations much better. Cyclegan had issues of keeping the semantic meaning in tact, even though it does appear to generate some of the patterns correctly, it's often mapped to the wrong brush or user defined section.
+	Subjective results of networks show that pix2pix performs much better than cyclegan. For the specfic task of segmented image translation, paired training data allows the network to learn the meaning of the segmentations much better. Cyclegan had issues of keeping the semantic meaning in tact. Even though it does appear to generate some of the patterns correctly, it's often mapped to the wrong brush or user defined section.
 	
 	Both models trained on the augmented batch produce much higher fidelity images. Both pix2pix models produce usable and realistic terrain.
 	
@@ -153,6 +154,26 @@
 	Terraces also had a lack of training data. Due to the specificity of their appearance, they were able to produce better results than rivers. The models will likely struggle on terraces with odd shapes.
 	
 	Mountains, hills, and plains all performed very well. There was plenty of samples in the training for these features and the areas for each tend to be large. This allowed the networks to do a great job of modeling these terrain features.
+
+	\begin{table*}[t]
+	\thisfloatpagestyle{empty}
+	\vspace{-2cm}
+		\begin{tabular}{c|c|c|c|c}
+ 			Test Image & Original Pix2Pix & Augmented Pix2Pix & Original CycleGAN & Augmented CycleGAN \\
+ 			\hline
+ 				\includegraphics[trim=0 0 0 -20, width=0.25\columnwidth]{00.png} & \includegraphics[width=0.25\columnwidth]{01.png} & \includegraphics[width=0.25\columnwidth]{02.png} & \includegraphics[width=0.25\columnwidth]{03.png} & \includegraphics[width=0.25\columnwidth]{04.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{10.png} & \includegraphics[width=0.25\columnwidth]{11.png} & \includegraphics[width=0.25\columnwidth]{12.png} & \includegraphics[width=0.25\columnwidth]{13.png} & \includegraphics[width=0.25\columnwidth]{14.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{20.png} & \includegraphics[width=0.25\columnwidth]{21.png} & \includegraphics[width=0.25\columnwidth]{22.png} & \includegraphics[width=0.25\columnwidth]{23.png} & \includegraphics[width=0.25\columnwidth]{24.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{30.png} & \includegraphics[width=0.25\columnwidth]{31.png} & \includegraphics[width=0.25\columnwidth]{32.png} & \includegraphics[width=0.25\columnwidth]{33.png} & \includegraphics[width=0.25\columnwidth]{34.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{40.png} & \includegraphics[width=0.25\columnwidth]{41.png} & \includegraphics[width=0.25\columnwidth]{42.png} & \includegraphics[width=0.25\columnwidth]{43.png} & \includegraphics[width=0.25\columnwidth]{44.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{50.png} & \includegraphics[width=0.25\columnwidth]{51.png} & \includegraphics[width=0.25\columnwidth]{52.png} & \includegraphics[width=0.25\columnwidth]{53.png} & \includegraphics[width=0.25\columnwidth]{54.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{60.png} & \includegraphics[width=0.25\columnwidth]{61.png} & \includegraphics[width=0.25\columnwidth]{62.png} & \includegraphics[width=0.25\columnwidth]{63.png} & \includegraphics[width=0.25\columnwidth]{64.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{70.png} & \includegraphics[width=0.25\columnwidth]{71.png} & \includegraphics[width=0.25\columnwidth]{72.png} & \includegraphics[width=0.25\columnwidth]{73.png} & \includegraphics[width=0.25\columnwidth]{74.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{80.png} & \includegraphics[width=0.25\columnwidth]{81.png} & \includegraphics[width=0.25\columnwidth]{82.png} & \includegraphics[width=0.25\columnwidth]{83.png} & \includegraphics[width=0.25\columnwidth]{84.png} \\
+ 				\includegraphics[width=0.25\columnwidth]{90.png} & \includegraphics[width=0.25\columnwidth]{91.png} & \includegraphics[width=0.25\columnwidth]{92.png} & \includegraphics[width=0.25\columnwidth]{93.png} & \includegraphics[width=0.25\columnwidth]{94.png} \\
+
+		\end{tabular}
+	\end{table*}
 
 	\section{Conclusion}
 	
