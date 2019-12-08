@@ -1,7 +1,10 @@
 \documentclass[twocolumn]{article}
-\usepackage{graphicx}
 
-\title{Conditional 3D Environment Generation Using Deep Adversarial Networks}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\title{3D Environment Generation Using Conditional Adversarial Networks}
 
 \author{Tim Whitaker \\ Colorado State University}
 
@@ -11,7 +14,7 @@
 	
 	\section{Abstract}
 	
-	We introduce a method and application for generating 3D environments with generative adversarial networks. The outputs from our networks are able to be imported into popular three dimensional modeling software like Unreal, Unity and Blender. We've created a simple and easy to use web based interface to allow a user to control the output of the generated environment by painting with predefined brushes that represent terrain varieties: mountains, hills, terraces, plains, and rivers.
+	We introduce a method and application for generating 3D environments using conditional generative adversarial networks. The outputs from our networks are able to be imported into popular three dimensional modeling software like Unreal, Unity and Blender. We've created a simple web based interface to allow a user to control the output of the generated environment by painting with predefined brushes that represent terrain varieties: mountains, hills, terraces, plains, and rivers.
 	
 	\section{Introduction}
 
@@ -31,19 +34,54 @@
 
 	\subsection{Generative Adversarial Networks}
 	
-	Neural networks have become a pervasive part of computer science. It allows for a powerful model of learning patterns from complex datasets. Generative adversarial networks work by synthesizing novel data according to patterns it learns in the training set. We evaluate two models of conditional generative adversarial networks to achieve image to image translation.
+	Neural networks allow for a powerful model of learning patterns from complex datasets. Generative adversarial networks work by synthesizing novel data according to patterns it learns in the training set. We evaluate two models of conditional generative adversarial networks to achieve image to image translation.
 	
 	We are going to evaluate two implementations of a specialized form of generative adversarial networks designed to perform conditional image to image translation. The two models we are using are called Pix2Pix and CycleGAN.
 	
 	Both Pix2Pix and CycleGAN are based on the deep convolutional generative adversarial network architecture proposd by Radford et al. in 2015 \cite{radford2015unsupervised}.
 	
+	The objective function of a conditional GAN can be expressed as:
+	
+	\begin{align*}
+		\mathcal{L}_{cGAN}(G, D) &= \mathbb{E}_{x,y}[log(D(x, y))] \\
+		&+ \mathbb{E}_{x,z}[log(1 - D(x, G(x, z))]
+	\end{align*}
+	
+	Where $G$ is the generator network that is attempting to minimize this objective and D is the discriminator network that tries to maximize it.
+	
 	\subsubsection{Pix2Pix}	
 	
 	Pix2Pix introduces a a generalized approach to image to image translation problems.  Their model learns not only a mapping between input and output images, but it also learns a loss function between the two image datasets. This allows this model to be used for a variety of image tasks that would originally need very different model and loss configurations \cite{isola2016imagetoimage}.
 	
+	Pix2Pix found it beneficial to add a traditional loss term as well, namely L1 distance. The discriminators job is the same as a traditional GAN, but the generator now is tasked with fooling the discriminator as well as producing results near the ground truth output.
+	
+	$$
+		\mathcal{L}_{L1}(G) = \mathbb{E}_{x,y,z}[|| y - G(x, z) ||_1]		
+	$$
+
+	The addition of that loss term can be tuned with a parameter  $\lambda$. This combined objective function is used for training Pix2Pix.
+	
+	$$	
+		G^* = arg \mathop{min}_G \mathop{max}_D \mathcal{L}_{cGAN}(G, D) + \lambda \mathcal{L}_{L1}(G)
+	$$
+	
 	\subsubsection{CycleGAN}
 	
-	CycleGAN introduces the idea of cycle consistency loss. It works by measuring the loss of a mapping from one distribution to another and then back to the original distribution again. This approach allows for good generalization and the advantage of not needing specifically paired images in the training distributions. This can save a lot of time in building large datasets, but it can lose out on the specificity offered by Pix2Pix \cite{zhu2017unpaired}.
+	CycleGAN introduces cycle consistency loss to conditional generativeadversarial networks. It works by measuring the loss of a mapping from one distribution to another and then back to the original distribution again. This approach allows for good generalization and the advantage of not needing specifically paired images in the training distributions. This can save a lot of time in building large datasets, but it can lose out on the specificity offered by Pix2Pix \cite{zhu2017unpaired}.
+	
+	CycleGAN introduces a cycle consistency loss to their objective function. The idea is that for each image in the $x$ domain, the image translation cycle should be able to bring the $x$ back to the original image, $x \rightarrow G(x) \rightarrow F(G(x)) \approx x$.
+	
+	\begin{align*}
+		\mathcal{L}_{cyc}(G, F) =\ & \mathbb{E}_{x,y}[||F(G(x)) - x||_1]\ + \\
+		& \mathbb{E}_{x,z}[||G(F(y)) - y||_1]
+	\end{align*}
+	
+	\begin{align*}
+		\mathcal{L}(G, F, D_X, D_Y) &=\ \mathcal{L}_{GAN}(G, D_Y, X, Y) \\
+		&+\ \mathcal{L}_{GAN}(F, D_X, Y, X) \\
+		&+\ \lambda \mathcal{L}_cyc (G, F)  
+	\end{align*}
+	
 
 	\subsection{Related Work}
 
@@ -55,28 +93,28 @@
 	
 	\subsection{User Interface Application}
 	
-	The user interface is a web based javascript application that allows a user to paint a semantically significant image using predefined brushes. We include tools to change th brush size and export or clear the image. The canvas size is 512 x 512 pixels, and these images are resized automatically when passed to our neural network.
+	The user interface is a web based javascript application that allows a user to paint a semantically significant image using predefined brushes. We include tools to change the brush size and export or clear the image. The canvas size is 512 x 512 pixels, and these images are resized automatically when passed to our neural network.
 
 	\begin{figure}[h!]
 	\includegraphics[width=1\columnwidth]{ui.png} 
 	\caption{The user interace application}
 	\end{figure}
 	
-	The backend is powered by a Flask API. We set up an endpoint to be able to evaluate a drawn image on our trained models.
+	The backend is powered by a Flask API. We set up an endpoint to be able to evaluate a drawn image on our trained models. In order to pass the usermap and generated heightmap back and forth between the client and the server, we use base 64 encoding and decoding on the image. This way we can save the images to the file system and have a local process run the neural network and return the generated heightmap. This direct access to the file system has security concerns, so it's only recommended to run the app locally.
 	
 	\subsection{The Dataset}
 	
-	Generative adversarial networks need a good amoount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet sizable dataset. In order to achieve this, we use terrain data of the earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
+	Generative adversarial networks need a good amount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet sizable dataset. In order to achieve this, we use terrain data of the earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
 
 	\subsubsection{Training Data}
 	
-	I used an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}.
+	We use an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}.
 	
-	I then built a program that controls a headless browser using an open source library developed by Google called puppeteer. This script loads a random coordinate, checks if the coordinate is over land and if so, then we save an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
+	We then built a program that controls a headless browser using an open source library developed by Google called puppeteer. This script loads a random coordinate, checks if the coordinate is over land and if so, then we save an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
 	
-	We then started manually building the usermap training set using the WorldGAN user interface application. For each image in the heightmap training set, We paint a usermap to represent that heightmap, using the semantically significant brushes that most closely match the terrain (mountains, hills, plains, rivers, and terraces). This process is a subjective one and all usermaps were painted by myself. This does bias the model to produce images according to how I read the heightmaps.
+	We then manually build the usermap training set using our user interface application. For each image in the heightmap training set, We paint a usermap to represent that heightmap, using the semantically significant brushes that most closely match the terrain (mountains, hills, plains, rivers, and terraces). This process is a subjective one and all usermaps were painted by myself. This does bias the model to produce images according to how I read the heightmaps.
 
-	After this process we are left with 259 paired usermaps and heightmaps. We group all of these together into a batch to be trained on.
+	After this process we are left with 258 paired usermaps and heightmaps. We group all of these together into a batch to be trained on.
 
 	Creating the usermaps by hand is quite time consuming, and I wanted to experiment with models trained on a large dataset. We accomplish this by augmenting our first batch with simple transformations in order to artificially increase the number of images we can train on. Image augmentations are a well researched and effective appoach to improving neural network performance \cite{perez2017effectiveness}.
 	
@@ -86,31 +124,38 @@
 			
 	\subsubsection{Test Data}
 	
-	The test data is a collection of 10 usermaps I drew that are designed to be representative of a variety of environments a user might draw. These 5 environments include mountainous regions, hilly regions, flat regions and combined regions.
+	The test data is a collection of 10 usermaps I drew that are designed to be representative of a variety of environments a user might draw. These 10 environments include mountainous regions, hilly regions, flat regions and combined regions.
 	
 	\subsection{Training The Models}
 	
-	We trained a total of 4 models. Pix2Pix and CycleGAN on both the original batch of training data and the augmented batch. The training was performed on my desktop GPU enabled PC. The relevant specifications include an Nvidia GTX 1080ti GPU with 11 GB of memory, an Intel i7 8700k processor, a 500GB solid state hard drive, and 32 GB of RAM.
+	We trained a total of 4 models. Pix2Pix and CycleGAN on both the original and augmented batch of training data. The training was performed on my desktop GPU enabled PC. The operating system is Ubuntu 18.04. We train on a Nvidia GTX 1080ti GPU with 11 GB of memory, an Intel i7 8700k processor, a 500GB solid state hard drive, and 32 GB of RAM.
 	
-	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch}.
+	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch} and are trained for 200 epochs.
 	
 	\subsubsection{Pix2Pix}
-	~1 hour training time.
-	~4 hours training time.
+		Our pix2pix model contained a total of 57.183 million parameters. The generator network contains 54.414 million parameters and the discriminator contains 2.769 million parameters. The original batch of data took approximately 45 minutes to train. The augmented batch took approximately 4 hours to train.
 	
 	\subsubsection{CycleGAN}
-	~4 hours training time.
-	~24 hours training time.
+		Our cyclegan model contained a total of 28.286 million parameters. Generator A and Generator B each contain 11.378 million parameters. Discriminator A and Discriminator B each contain 2.765 million parameters. The original batch of data took approximately 4 hours to train. The augmented batch took approximately 24 hours to train.
 
 	\subsection{Visualizations Using 3D Software}
 	
-	Visualizations of results with 3d software.
+	The resulting heightmaps can be imported into popular 3d modeling software including Unity, Unreal, Blender, and World Machine. For the purposes of visualizing these results, and because of the limited support for Linux in all of the previously listed softwares, we visualize results using a demo application called Fractscape. Fractscape includes elevation based texture mapping which happens to work very well for visualizing our terrain elevation data. Unity, Unreal, Blender and World Machine have a different workflow for painting textures, so using the generality of fractscape works best for our visualizations.
 
 	\section{Results}
 	
-	\subsection{Visualizations Using 3D Software}
+	Subjective results of networks show that pix2pix performs much better than cyclegan. For the specfic task of segmented image translation, paired training data allows the network to learn the meaning of the segmentations much better. Cyclegan had issues of keeping the semantic meaning in tact, even though it does appear to generate some of the patterns correctly, it's often mapped to the wrong brush or user defined section.
+	
+	Both models trained on the augmented batch produce much higher fidelity images. Both pix2pix models produce usable and realistic terrain.
+	
+	We also find that the model does not perform very well on usermaps with rivers. We found that rivers tend to produce noisy results and sometimes the rivers aren't defined enough to be noticeable in the results. I think this can be solved with more training data including rivers. Due to the nature of how the training data was gathered, it's likely that we didn't get enough examples, and due to the subjective nature of myself reading the earth data and drawing the usermaps myself, I could have read them wrong and not painted them as detailed as thy needed to be.
+	
+	Terraces also had a lack of training data. Due to the specificity of their appearance, they were able to produce better results than rivers. The models will likely struggle on terraces with odd shapes.
+	
+	Mountains, hills, and plains all performed very well. There was plenty of samples in the training for these features and the areas for each tend to be large. This allowed the networks to do a great job of modeling these terrain features.
 
 	\section{Conclusion}
+	
 	
 	\subsection{Future Work}
 
