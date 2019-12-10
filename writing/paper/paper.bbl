@@ -1,9 +1,17 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
+
+\bibitem{beckham2017step}
+Christopher Beckham and Christopher Pal.
+\newblock A step towards procedural terrain generation with gans, 2017.
 
 \bibitem{isola2016imagetoimage}
 Phillip Isola, Jun-Yan Zhu, Tinghui Zhou, and Alexei~A. Efros.
 \newblock Image-to-image translation with conditional adversarial networks,
   2016.
+
+\bibitem{park2019semantic}
+Taesung Park, Ming-Yu Liu, Ting-Chun Wang, and Jun-Yan Zhu.
+\newblock Semantic image synthesis with spatially-adaptive normalization, 2019.
 
 \bibitem{paszke2019pytorch}
 Adam Paszke, Sam Gross, Francisco Massa, Adam Lerer, James Bradbury, Gregory
@@ -36,6 +44,11 @@ Star~Scene Software.
 Adam Summerville, Sam Snodgrass, Matthew Guzdial, Christoffer Holmgård, Amy~K.
   Hoover, Aaron Isaksen, Andy Nealen, and Julian Togelius.
 \newblock Procedural content generation via machine learning (pcgml), 2017.
+
+\bibitem{wiki:procedural}
+{Wikipedia contributors}.
+\newblock Procedural generation --- {Wikipedia}{,} the free encyclopedia, 2019.
+\newblock [Online; accessed 9-December-2019].
 
 \bibitem{junyanzhu2017github}
 Jun-Yan Zhu.

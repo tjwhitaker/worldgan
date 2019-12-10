@@ -25,23 +25,27 @@
 	
 	We aim to create a simple and easy to use GUI interface for a user to paint a 2 dimensional semantically significant image map. We then pass the user created image map through a generative adversarial network trained on elevation data gathered from the Earth in order to generate a realistic terrain heightmap that approximately represents the user defined map. The resulting heightmap produced from the neural network can then be uploaded into any of the popular 3 dimensional rendering softwares including Unity, Unreal, Blender or World Machine.
 	
-	\section{Background}
+	This approach offers a promising avenue to co-creative design. Humans working together with machine learning programs could allow for more creative results with reduced cost and effort for the designer. The flexibility of being able to tweak and tune the training set also allows for the possibility of adapting this approach to content of many different kinds, not just 3d environments.
 	
-	This project explores the new paradigm of 3 dimensional procedurally generated content via machine learning.
-		
+	\section{Background}
+			
 	\subsection{Procedural Content Generation}
 	
-	Procedural content generation is an algorithmic and stochastic process used in art, games, music and film. As a paradigm for content generation, it is used to increase replayability, variability, flexibility and reduce production cost, effort storage space \cite{summerville2017procedural}.
+	Procedural content generation is an algorithmic and stochastic process used in art, games, music and film. As a paradigm for content generation, it is used to increase replayability, variability, flexibility and reduce production cost, effort and storage space \cite{summerville2017procedural}. These algorithms are crafted by hand and they require a lot of tuning by a developer to ensure that the random perturbations result in usable content.
+	
+	Procedral content generation has been used in production applications since 1980 with the dungeon crawler Rogue demonstrating its effectiveness. \cite{wiki:procedural} Procedural generation has been a staple in gaming since and today it continues to be featured in some of the top games.
+	
+	The addition of machine learning to procedural generation is a new topic in research. Most projects are using 2 dimensional platformers, but real time strategy and 3 dimensional environments are also being explored. This field of research has its own challenges, particularly the comparability of results, but efforts are beng made to improve benchmarks and datasets \cite{summerville2017procedural}.
 
 	\subsection{Generative Adversarial Networks}
 	
-	Neural networks allow for a powerful model of learning patterns from complex datasets. Generative adversarial networks work by synthesizing novel data according to patterns it learns in the training set. We evaluate two models of conditional generative adversarial networks to achieve image to image translation.
+	Neural networks allow for a powerful model of learning patterns from complex datasets. Generative adversarial networks work by synthesizing novel data according to patterns it learns in the training set. They work by training two neural networks in competition with each other, a generator and a discriminator. The generator network generates new data instances and the discriminator classifies the results of the generator according to how authentic the generated images are given some training distribution. These two networks train in tandem, and over time, the generator gets good at producing novel images that look like they belong to the training set.
+		
+	We are evaluate two implementations of a specialized form of generative adversarial networks designed to perform conditional image to image translation. The two models we are using are called Pix2Pix and CycleGAN.
 	
-	We are going to evaluate two implementations of a specialized form of generative adversarial networks designed to perform conditional image to image translation. The two models we are using are called Pix2Pix and CycleGAN.
+	Both Pix2Pix and CycleGAN are conditonal networks based on the deep convolutional generative adversarial network architecture proposed by Radford et al. in 2015 \cite{radford2015unsupervised}.
 	
-	Both Pix2Pix and CycleGAN are based on the deep convolutional generative adversarial network architecture proposd by Radford et al. in 2015 \cite{radford2015unsupervised}.
-	
-	The objective function of a conditional GAN can be expressed as:
+	The objective function of a conditional generative adversarial networks can be expressed as:
 	
 	\begin{align*}
 		\mathcal{L}_{cGAN}(G, D) &= \mathbb{E}_{x,y}[log(D(x, y))] \\
@@ -70,7 +74,7 @@
 	
 	CycleGAN introduces cycle consistency loss to conditional generativeadversarial networks. It works by measuring the loss of a mapping from one distribution to another and then back to the original distribution again. This approach allows for good generalization and the advantage of not needing specifically paired images in the training distributions. This can save a lot of time in building large datasets, but it can lose out on the specificity offered by Pix2Pix \cite{zhu2017unpaired}.
 	
-	CycleGAN introduces a cycle consistency loss to their objective function. The idea is that for each image in the $x$ domain, the image translation cycle should be able to bring the $x$ back to the original image, $x \rightarrow G(x) \rightarrow F(G(x)) \approx x$.
+	Where pix2pix trains one GAN (one generator and one discriminator), CycleGAN trains two, (Generator A and B and Discriminator A and B). learning the mapping between the two GANs is the trick to getting unpaired image translation to work. CycleGAN introduces a cycle consistency loss. The idea is that for each image in the $x$ domain, the image translation cycle should be able to bring the $x$ back to the original image, $x \rightarrow G(x) \rightarrow F(G(x)) \approx x$.
 	
 	\begin{align*}
 		\mathcal{L}_{cyc}(G, F) =\ & \mathbb{E}_{x,y}[||F(G(x)) - x||_1]\ + \\
@@ -85,13 +89,18 @@
 	
 
 	\subsection{Related Work}
-
-	Nvidia GauGAN.
 	
+	\subsubsection{Nvidia's GauGAN}
+	
+	GauGAN was the inspiration behind the semantic user map. This research demonstrated an application that took a 2 dimensional semantic image drawn by a user, and translated it into a photorealistic image. This project also used Pix2Pix as a base for their network architecture, but they also introduce a novel normalization layer called spatially-adaptive normalization. The idea is that normal layer normalization tends to wash out semantic meaning from an image. By considering the spatial properties, you can keep the semantic information in tact while still performing normalization. \cite{park2019semantic}	. Nvidia hosts an excellent demo of the project at http://nvidia-research-mingyuliu.com/gaugan.
+	
+	
+	\subsubsection{A Step Toward Procedural Terrain Generation with GANs}
+	
+	This paper had a very similar idea to this project. They use a standard generative adversarial network to synthesize terrain heightmaps with a model trained on Earth data. They use NASA's visible earth project for their training image data at a resolution of 1km per pixel. This project appears to be quite introductory and they lay out a good overview of how a standard GAN could be implemented to generate environments. We expand on their work by introducing the conditional GAN and integrating co-creative design by including a translation from a user defined segmentation map. \cite{beckham2017step}
+		
 	\section{Methodology}
-	
-	In this section we go over all of the pieces of work that went in to this project.
-	
+		
 	\subsection{User Interface Application}
 	
 	The user interface is a web based javascript application that allows a user to paint a semantically significant image using predefined brushes. We include tools to change the brush size and export or clear the image. The canvas size is 512 x 512 pixels, and these images are resized automatically when passed to our neural network.
@@ -149,11 +158,15 @@
 	
 	Both models trained on the augmented batch produce much higher fidelity images. Both pix2pix models produce usable and realistic terrain.
 	
-	We also find that the model does not perform very well on usermaps with rivers. We found that rivers tend to produce noisy results and sometimes the rivers aren't defined enough to be noticeable in the results. I think this can be solved with more training data including rivers. Due to the nature of how the training data was gathered, it's likely that we didn't get enough examples, and due to the subjective nature of myself reading the earth data and drawing the usermaps myself, I could have read them wrong and not painted them as detailed as thy needed to be.
-	
+	We also find that the model does not perform very well on usermaps with rivers. We found that rivers tend to produce noisy results and sometimes the rivers aren't defined enough to be noticeable in the results. I think this can be solved with more training data including rivers. Due to the nature of how the training data was gathered, it's likely that we didn't get enough examples, and due to the subjective nature of myself reading the earth data and drawing the usermaps myself, I could have read them wrong and not painted them as detailed as they needed to be.
+
 	Terraces also had a lack of training data. Due to the specificity of their appearance, they were able to produce better results than rivers. The models will likely struggle on terraces with odd shapes.
-	
+
 	Mountains, hills, and plains all performed very well. There was plenty of samples in the training for these features and the areas for each tend to be large. This allowed the networks to do a great job of modeling these terrain features.
+
+	\subsection{User Preference Survey}
+	
+	We also created a small user survey to measure user preference between the 4 trained models. The survey was conducted through google forms and sent to the students in CSCI 567 (3D User Interfaces) through the piazza message board. I took a sample of 5 user maps, and for each one, I produced the ouput for each model and listed those as multiple choice answers.
 
 	\begin{table*}[t]
 	\thisfloatpagestyle{empty}
@@ -173,12 +186,22 @@
  				\includegraphics[width=0.25\columnwidth]{90.png} & \includegraphics[width=0.25\columnwidth]{91.png} & \includegraphics[width=0.25\columnwidth]{92.png} & \includegraphics[width=0.25\columnwidth]{93.png} & \includegraphics[width=0.25\columnwidth]{94.png} \\
 
 		\end{tabular}
+		
+		\caption{Test images and the outputs from our trained models}
 	\end{table*}
 
 	\section{Conclusion}
 	
 	
 	\subsection{Future Work}
+	
+	Expanding this idea to include texture maps could be an interesting direction to go. Using this same method, it should be possible to translate a given heightmap into a texturemap. This could allow the designer to have control over generated styles like barren desert scenes vs dark horror scenes vs fantastical colorful scenes. Gathering training data of texturemaps would likely be the bottleneck.
+	
+	Modifying the network to perform real time generation would be an interesting addition. This would give the user a more interactive experience in designing the enviroments. Current latency with this implementation is not fast enough so new network architectures or approaches would be needed.
+	
+	Tunable paramaters would also be an interesting addition. Giving the user even more control over the results would lead to a better experience. I can imagine parameters like intensity, noise, smoothness could rusult in a lot of usable outcomes.
+	
+	Expanding the training set with different means. Needing to draw all the usermaps for the training set is time consuming and error/bias prone. Coming up with a programmatic way to create the usermap training set could have a large impact on the quality of the results.
 
 	\bibliographystyle{plain}
 	\bibliography{references}	
