@@ -21,7 +21,8 @@ def generate_heightmap():
     "--checkpoints_dir", "../models", 
     "--name", "two-pix2pix", 
     "--results_dir", "./generate/results", 
-    "--model", "pix2pix"])
+    "--model", "pix2pix",
+    "--load_size", "256"])
 
   with open("generate/results/two-pix2pix/test_latest/images/A_fake_B.png", "rb") as fh:
       encoded_string = base64.b64encode(fh.read())
