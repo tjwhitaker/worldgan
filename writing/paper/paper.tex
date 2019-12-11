@@ -43,9 +43,7 @@
 		
 	We are evaluate two implementations of a specialized form of generative adversarial networks designed to perform conditional image to image translation. The two models we are using are called Pix2Pix and CycleGAN.
 	
-	Both Pix2Pix and CycleGAN are conditonal networks based on the deep convolutional generative adversarial network architecture proposed by Radford et al. in 2015 \cite{radford2015unsupervised}.
-	
-	The objective function of a conditional generative adversarial networks can be expressed as:
+	The objective function of a standard conditional generative adversarial network can be expressed as:
 	
 	\begin{align*}
 		\mathcal{L}_{cGAN}(G, D) &= \mathbb{E}_{x,y}[log(D(x, y))] \\
@@ -53,6 +51,8 @@
 	\end{align*}
 	
 	Where $G$ is the generator network that is attempting to minimize this objective and D is the discriminator network that tries to maximize it.
+
+	Pix2Pix and CycleGAN both make modifications to this objective function and below we go into those changes.	
 	
 	\subsubsection{Pix2Pix}	
 	
@@ -81,12 +81,19 @@
 		& \mathbb{E}_{x,z}[||G(F(y)) - y||_1]
 	\end{align*}
 	
+	This cycle consistency loss is then combined with the standard GAN loss for each GAN:
+	
 	\begin{align*}
 		\mathcal{L}(G, F, D_X, D_Y) &=\ \mathcal{L}_{GAN}(G, D_Y, X, Y) \\
 		&+\ \mathcal{L}_{GAN}(F, D_X, Y, X) \\
 		&+\ \lambda \mathcal{L}_cyc (G, F)  
 	\end{align*}
 	
+	The generators then seek to minimize this objective while the discriminators try to maximize it.
+	
+	\begin{align*}
+		G^*, F^* = arg \mathop{min}_{G,F} \mathop{max}_{D_x, D_y} \mathcal{L}(G, F, D_x, D_y)
+	\end{align*}
 
 	\subsection{Related Work}
 	
@@ -118,7 +125,7 @@
 
 	\subsubsection{Training Data}
 	
-	We use an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}.
+	We use an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}. The data for the map tool is aggrgated from 3 sources, USGS, NASA, and NGA. The map is a greyscale map, where the brightness of the pixel corresponds to the relative elevation.
 	
 	We then built a program that controls a headless browser using an open source library developed by Google called puppeteer. This script loads a random coordinate, checks if the coordinate is over land and if so, then we save an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
 	
