@@ -1,0 +1,16 @@
+{
+    "name": "Computer Science",
+    "nameLong": "Computer Science Department",
+    "abbreviation": "CS",
+    "url": "http://www.cs.colostate.edu",
+    "email": "info@cs.colostate.edu",
+    "address": "279 Computer Science Building\n1100 Centre Avenue\nFort Collins, CO  80523",
+    "phone": "(970) 491-5792",
+    "fax": "(970) 491-2466",
+    "links": [
+      {"name":"Courses","url":"http://www.cs.colostate.edu/cstop/csacademics/cscourses.php"},
+      {"name":"Degrees","url":"http://www.cs.colostate.edu/cstop/csacademics/csdegrees.php"},
+      {"name":"Faculty & Staff","url":"http://www.cs.colostate.edu/cstop/cspeople/csfacultyandstaff.php"},
+      {"name":"Prospective Students","url":"http://www.cs.colostate.edu/cstop/csprostudents.php"}
+    ]
+}

@@ -1,0 +1,16 @@
+{
+  "name":"CS 001 Web Page Demonstration",
+  "department":"pages/department.json",
+  "pages": [
+    {"type":"page", "title":"CS 001 Web Pages", "menu":"CS001", "file":"pages/home.md"},
+    {"type":"text", "title":"site.json text contents", "menu":"Site", "file":"pages/site.json"},
+    {"type":"text", "title":"department.json text contents", "menu":"Dept", "file":"pages/department.json"},
+    {"type":"text", "title":"text contents markdown.md", "menu":"Text", "file":"pages/markdown.md"},
+    {"type":"page", "title":"page formatted markdown.md", "menu":"Page", "file":"pages/markdown.md"},
+    {"type":"card", "title":"card formatted markdown.md", "menu":"Card", "file":"pages/markdown.md"},
+    {"type":"card", "title":"Faculty Sample Page", "menu":"Faculty", "file":"pages/faculty.md"},
+    {"type":"card", "title":"Course Sample Page", "menu":"Course", "file":"pages/course.md"},
+    {"type":"page", "title":"Create your own site", "menu":"Download", "file":"pages/download.md"},
+    {"type":"link", "title":"Computer Science", "menu":"CS", "url":"http://www.cs.colostate.edu/"}
+  ]
+}
