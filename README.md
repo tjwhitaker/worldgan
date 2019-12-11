@@ -103,4 +103,4 @@ npm start
 
 ### /writing
 
-Paper and proposal latex and pdf files. Also contains the repo for the project description website.
+Paper and proposal latex and pdf files. Also contains the repo for the project description website and a power point presentation.
