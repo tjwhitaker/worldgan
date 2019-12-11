@@ -2,6 +2,8 @@
 
 3D Environment Generation Using Deep Conditional Generative Adversarial Networks
 
+![Viz 1](data/screenshots/viz-1.png)
+
 ## Videos
 
 - Checkpoint 1: https://www.youtube.com/watch?v=jP5bdHnInEw
@@ -33,6 +35,8 @@ Change to the app directory and run with:
 ```
 env FLASK_APP=server.py flask run
 ```
+
+~[UI App](data/screenshots/ui-app.png)
 
 ### /data
 
@@ -89,6 +93,8 @@ Change to directory and run with:
 ```
 python3 -m http.server
 ```
+
+~[Heightmapper](data/screenshots/heightmapper.png)
 
 #### Data Generator
 
