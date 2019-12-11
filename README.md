@@ -1,6 +1,6 @@
 # WorldGAN
 
-3D Environment Generation Using Deep Adversarial Networks
+3D Environment Generation Using Deep Conditional Generative Adversarial Networks
 
 ## Videos
 
@@ -11,82 +11,96 @@
 - Checkpoint 5: https://www.youtube.com/watch?v=SpBx00NE8ss
 - Demo: https://www.youtube.com/watch?v=pADYl1LY1hA
 
-## Canvas
+## Folder Structure
 
-A paint-like GUI. Simple HTML/CSS/JS. Run with a simple web server.
+Below I outline all the folders for thir project
 
-```
-~$ cd canvas
-~/canvas$ python -m http.server
-```
+### /app
 
-## App
+The user interface application. Built on top of the Flask Python webserver. Interactivity is all done with client side javascript.
 
-A flask app.
+Requirements:
 
-```
-~/app$ env FLASK_APP=server.py flask run
-```
+- Python 3.6+
+- Flask
 
-## Data
+To run model inference you need to also have:
+- Pytorch
+- Torchvision
 
-Split into folders of batches.
-
-A simple training set.
-
-An augmented training set (flipped + rotated)
-
-A generated dataset for cyclegan.
-
-## Heightmapper
-
-A great open source project to display the earth as an interactive heightmap.
+Change to the app directory and run with:
 
 ```
-~$ cd heightmapper
-~/heightmapper$ python -m http.server
+env FLASK_APP=server.py flask run
 ```
 
-## Pix2Pix
+### /data
 
-The GAN architecture. Installation instructions found https://github.com/phillipi/pix2pix.
+Contains training and test data sets. In the batch folders, the data is structured to work by default with the pix2pix and cyclegan training code.
 
-## Proposal
+- /original-batch contains a set of 258 paired usermaps and heightmaps
+- /augmented-batch contains a training set of our original batch along with flipped, mirrored, and rotated images
+- /screenshots contain a variety of outputs and training captures
+- /test-set contains a collection of 10 hand drawn usermaps for evaluation
+- /working is an "in-progress" folder containing a lot of heightmaps
 
-Proposal tex and pdf files.
+### /models
 
-## Utilities
+Contains all of our trained models and test results. These pth files can be loaded with pytorch, or called by the app or pytorchh-cyclegan-and-pix2pix projects.
 
-Random tools.
+### /pytorch-CycleGAN-and-pix2pix
 
-Building a dataset for terrain maps. Run the heightmapper tool locally and then run the datagenerator utility. The utility uses puppeteer, a headless browser API, to download heightmaps from the heightmapper tool we have running. We're going to use this to build the dataset.
+The open source repo for our GAN architectures. Refer to https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix for more documentation.
 
-```
-~$ cd heightmapper
-~/heightmapper$ python -m http.server
-Serving HTTP on 0.0.0.0 port 8000 (http://0.0.0.0:8000/) ...
-```
-
-```
-~$ cd utilities/datagenerator
-~/utilities/datagenerator$ npm install
-~/utilities/datagenerator$ npm start
-```
-
-While script runs, it will save images (512 x 512 pixels) into the data folder. Once the script is done running, it will create a meta.json file containing an array of the following values for each image.
+To train the 4 models, navigate to this directory and run:
 
 ```
-{
-  "file": filename,
-  "url": url,
-  "lat": latitude,
-  "lon": longitude,
-  "max": maxElevation,
-  "min": minElevation,
-  "sf": scaleFactor
-}
+python3 train.py --dataroot ../data/original-batch/cycle --name one-cyclegan --model cycle_gan
+python3 train.py --dataroot ../data/augmented-batch/cycle --name two-cyclegan --model cycle_gan
+python3 train.py --dataroot ../data/original-batch/p2p --name one-pix2pix --model pix2pix
+python3 train.py --dataroot ../data/augmented-batch/p2p --name two-pix2pix --model pix2pix
 ```
 
-Data Augmentator
+To perform inference on the models:
 
-Used to expand our training set data.
+```
+python3 test.py --dataroot ../data/test-set --name one-pix2pix --model pix2pix --load_size 256
+python3 test.py --dataroot ../data/test-set --name two-pix2pix --model pix2pix --load_size 256
+python3 test.py --dataroot ../data/test-set --name one-cyclegan --model test --no_dropout --preprocess none
+python3 test.py --dataroot ../data/test-set --name two-cyclegan --model test --no_dropout --preprocess none
+```
+
+### Utilities
+
+Contains a small number of apps and programs to help with data collection.
+
+#### Data Augmentator
+
+A python program to augment images in a directory with 5 operations: mirror, flip, rotate 90, rotate 180, and rotate 270.
+
+Requires python imaging library.
+
+#### Heightmapper
+
+An open source interactive map published by mapzen. Contains world elevation data gathered by NASA, USGS, and the NGA. Adds a tilesLoaded hook to be able to be used with my generator program.
+
+Change to directory and run with:
+
+```
+python3 -m http.server
+```
+
+#### Data Generator
+
+A node.js program used to control a headless browser. This program loads a random coordinate, waits for the tiles to load, checks if the elevation is usable (not over water), and saves it. Can be used asychrounously. Needs to be used in conjunction with heightmapper. Need to install npm and node for this to work. Dependecies can be installed with npm.
+
+Navigate to directory and run with:
+
+```
+npm install
+npm start
+```
+
+### /writing
+
+Paper and proposal latex and pdf files. Also contains the repo for the project description website.
