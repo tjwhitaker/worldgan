@@ -36,7 +36,7 @@ Change to the app directory and run with:
 env FLASK_APP=server.py flask run
 ```
 
-~[UI App](data/screenshots/ui-app.png)
+![UI App](data/screenshots/ui-app.png)
 
 ### /data
 
@@ -94,7 +94,7 @@ Change to directory and run with:
 python3 -m http.server
 ```
 
-~[Heightmapper](data/screenshots/heightmapper.png)
+![Heightmapper](data/screenshots/heightmapper.png)
 
 #### Data Generator
 
