@@ -4,6 +4,8 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{floatpag}
+\usepackage{caption}
+
 
 \title{3D Environment Generation Using Conditional Adversarial Networks}
 
@@ -174,7 +176,23 @@
 	\subsection{User Preference Survey}
 	
 	We also created a small user survey to measure user preference between the 4 trained models. The survey was conducted through google forms and sent to the students in CSCI 567 (3D User Interfaces) through the piazza message board. I took a sample of 5 user maps, and for each one, I produced the ouput for each model and listed those as multiple choice answers.
+	
+	We recieved 11 responses. For all 5 samples, users preferred the output of Pix2Pix over the output of CycleGAN for each one. When looking at the results of the original training batch to the augmented training batch, users preferred the ouput of the original batch for 4 samples and the augmented batch for one of the samples.
 
+	\begin{table*}[h]
+		\begin{tabular}{c|c|c|c|c}
+			Sample Number & Original Pix2Pix & Augmented Pix2Pix & Original CycleGAN & Augmented CycleGAN \\
+			\hline
+			1 & 6 & 3 & 1 & 1 \\
+			2 & 8 & 1 & 1 & 1 \\
+			3 & 3 & 6 & 2 & 0 \\
+			4 & 5 & 4 & 1 & 1 \\
+			5 & 7 & 3 & 1 & 0
+		\end{tabular}
+		
+	\caption{Survey Results}
+	\end{table*}	
+	
 	\begin{table*}[t]
 	\thisfloatpagestyle{empty}
 	\vspace{-2cm}
@@ -199,6 +217,15 @@
 
 	\section{Conclusion}
 	
+	We saw that we can generate good results with generative adversarial networks. It's easy to generate these environments faster and more efficiently than traditional methods.
+	
+	Using heightmaps as a target allows for the resulting environments to be generalizable. We can import the heightmaps into many popular 3d software applications like Unity, Unreal and Blender.
+	
+	The training time is computationally intensive, but inference is quick. Once a model is trained, it's easy to generate as many new environments as you want. This has massive improvements over hand crafted environments.
+	
+	Pix2Pix performs much better than CycleGAN and users prefer its output for this task over CycleGAN for every sample. Pix2Pix offers specificty that CycleGAN can not match.
+	
+	This is a viable area of research, and there's opportunities to tune these models further to get better results. Training data is the most important part of this project, and spending more time with it will lead to better results. We also show that augmenting the training data is an easy way to expand a dataset, but it can lead to overfitting. There is a middleground between too much and too little for augmentation.
 	
 	\subsection{Future Work}
 	
@@ -211,6 +238,25 @@
 	Expanding the training set with different means. Needing to draw all the usermaps for the training set is time consuming and error/bias prone. Coming up with a programmatic way to create the usermap training set could have a large impact on the quality of the results.
 
 	\bibliographystyle{plain}
-	\bibliography{references}	
+	\bibliography{references}
+	
+	\clearpage
+	
+	\begin{figure}[h!]
+	\caption{Sample usermaps, generated heightmaps, and visualized 3d terrain}	
+	\includegraphics[width=2\columnwidth]{viz-1.png} 
+	\end{figure}
+	
+	\begin{figure}[h!]
+	\includegraphics[width=2\columnwidth]{viz-2.png} 
+	\end{figure}
+	
+	\begin{figure}[h!]
+	\includegraphics[width=2\columnwidth]{viz-3.png} 
+	\end{figure}
+	
+	
+	
+		
   
 \end{document}

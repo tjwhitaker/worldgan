@@ -27,11 +27,6 @@ Luis Perez and Jason Wang.
 \newblock The effectiveness of data augmentation in image classification using
   deep learning, 2017.
 
-\bibitem{radford2015unsupervised}
-Alec Radford, Luke Metz, and Soumith Chintala.
-\newblock Unsupervised representation learning with deep convolutional
-  generative adversarial networks, 2015.
-
 \bibitem{richardson2016mapzen}
 Peter Richardson.
 \newblock Tangrams heightmapper, 2016.
