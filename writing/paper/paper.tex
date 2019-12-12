@@ -74,9 +74,9 @@
 	
 	\subsubsection{CycleGAN}
 	
-	CycleGAN introduces cycle consistency loss to conditional generativeadversarial networks. It works by measuring the loss of a mapping from one distribution to another and then back to the original distribution again. This approach allows for good generalization and the advantage of not needing specifically paired images in the training distributions. This can save a lot of time in building large datasets, but it can lose out on the specificity offered by Pix2Pix \cite{zhu2017unpaired}.
+	CycleGAN introduces cycle consistency loss to conditional generative adversarial networks. It works by measuring the loss of a mapping from one distribution to another and then back to the original distribution again. This approach allows for good generalization and the advantage of not needing specifically paired images in the training distributions. This can save a lot of time in building large datasets, but it can lose out on the specificity offered by Pix2Pix \cite{zhu2017unpaired}.
 	
-	Where pix2pix trains one GAN (one generator and one discriminator), CycleGAN trains two, (Generator A and B and Discriminator A and B). learning the mapping between the two GANs is the trick to getting unpaired image translation to work. CycleGAN introduces a cycle consistency loss. The idea is that for each image in the $x$ domain, the image translation cycle should be able to bring the $x$ back to the original image, $x \rightarrow G(x) \rightarrow F(G(x)) \approx x$.
+	Where pix2pix trains one GAN (one generator and one discriminator), CycleGAN trains two, (Generator A and B and Discriminator A and B). Learning the mapping between the two GANs is the trick to getting unpaired image translation to work. CycleGAN introduces a cycle consistency loss. The idea is that for each image in the $x$ domain, the image translation cycle should be able to bring the $x$ back to the original image, $x \rightarrow G(x) \rightarrow F(G(x)) \approx x$.
 	
 	\begin{align*}
 		\mathcal{L}_{cyc}(G, F) =\ & \mathbb{E}_{x,y}[||F(G(x)) - x||_1]\ + \\
@@ -123,15 +123,15 @@
 	
 	\subsection{The Dataset}
 	
-	Generative adversarial networks need a good amount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet sizable dataset. In order to achieve this, we use terrain data of the earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
+	Generative adversarial networks need a good amount of training data to output good results and a key objective of this project is to generate realistic results. This leads to an interesting challenge of putting together a realistic yet sizable dataset. In order to achieve this, we use terrain data of the Earth as opposed to fictional or manufactured terrain data. In the next two sections we go into the methodology behind building the dataset.
 
 	\subsubsection{Training Data}
 	
-	We use an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}. The data for the map tool is aggrgated from 3 sources, USGS, NASA, and NGA. The map is a greyscale map, where the brightness of the pixel corresponds to the relative elevation.
+	We use an interactive open source map tool that visualizes elevation data gathered from Mapzen's global elevation service \cite{richardson2016mapzen}. The data for the map tool is aggregated from 3 sources, USGS, NASA, and NGA. The map is a greyscale map, where the brightness of the pixel corresponds to the relative elevation.
 	
-	We then built a program that controls a headless browser using an open source library developed by Google called puppeteer. This script loads a random coordinate, checks if the coordinate is over land and if so, then we save an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
+	We then built a program that controls a headless browser using an open source library developed by Google called Puppeteer. This script loads a random coordinate, checks if the coordinate is over land and if so, then we save an image of the elevation data at that coordinate. We resize the saved image to be 512 x 512 pixels.
 	
-	We then manually build the usermap training set using our user interface application. For each image in the heightmap training set, We paint a usermap to represent that heightmap, using the semantically significant brushes that most closely match the terrain (mountains, hills, plains, rivers, and terraces). This process is a subjective one and all usermaps were painted by myself. This does bias the model to produce images according to how I read the heightmaps.
+	We then manually build the usermap training set using our user interface application. For each image in the heightmap training set, we paint a usermap to represent that heightmap, using the semantically significant brushes that most closely match the terrain (mountains, hills, plains, rivers, and terraces). This process is a subjective one and all usermaps were painted by myself. This does bias the model to produce images according to how I read the heightmaps.
 
 	After this process we are left with 258 paired usermaps and heightmaps. We group all of these together into a batch to be trained on.
 
@@ -149,10 +149,10 @@
 	
 	We trained a total of 4 models. Pix2Pix and CycleGAN on both the original and augmented batch of training data. The training was performed on my desktop GPU enabled PC. The operating system is Ubuntu 18.04. We train on a Nvidia GTX 1080ti GPU with 11 GB of memory, an Intel i7 8700k processor, a 500GB solid state hard drive, and 32 GB of RAM.
 	
-	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch} and are trained for 200 epochs. We use the open source repo implemented by the Jun-Yan Zhu, who published the research on both models \cite{junyanzhu2017github}.
+	Both models are built on top of the PyTorch framework \cite{paszke2019pytorch} and are trained for 200 epochs. We use the default hyperparameters of 0.0002 for the learning rate and ADAM for the optimizer. We use the open source repo implemented by Jun-Yan Zhu, who published the research on both models \cite{junyanzhu2017github}. Both models are 15 layers deep and contain multiple convolutional layers and residual blocks \cite{isola2016imagetoimage} \cite{zhu2017unpaired}.
 	
 	\subsubsection{Pix2Pix}
-		Our pix2pix model contained a total of 57.183 million parameters. The generator network contains 54.414 million parameters and the discriminator contains 2.769 million parameters. The original batch of data took approximately 45 minutes to train. The augmented batch took approximately 4 hours to train.
+		Our pix2pix model contains a total of 57.183 million parameters. The generator network contains 54.414 million parameters and the discriminator contains 2.769 million parameters. The original batch of data took approximately 45 minutes to train. The augmented batch took approximately 4 hours to train.
 	
 	\subsubsection{CycleGAN}
 		Our cyclegan model contained a total of 28.286 million parameters. Generator A and Generator B each contain 11.378 million parameters. Discriminator A and Discriminator B each contain 2.765 million parameters. The original batch of data took approximately 4 hours to train. The augmented batch took approximately 24 hours to train.
@@ -163,9 +163,9 @@
 
 	\section{Results}
 	
-	Subjective results of networks show that pix2pix performs much better than cyclegan. For the specfic task of segmented image translation, paired training data allows the network to learn the meaning of the segmentations much better. Cyclegan had issues of keeping the semantic meaning in tact. Even though it does appear to generate some of the patterns correctly, it's often mapped to the wrong brush or user defined section.
+	Subjective results of networks show that Pix2Pix performs much better than CycleGAN. For the specfic task of segmented image translation, paired training data allows the network to learn the meaning of the segmentations much better. Cyclegan had issues of keeping the semantic meaning in tact. Even though it does appear to generate some of the patterns correctly, it's often mapped to the wrong brush or user defined section.
 	
-	Both models trained on the augmented batch produce much higher fidelity images. Both pix2pix models produce usable and realistic terrain.
+	Both models trained on the augmented batch produce higher fidelity images. Both Pix2Pix models produce usable and realistic terrain.
 	
 	We also find that the model does not perform very well on usermaps with rivers. We found that rivers tend to produce noisy results and sometimes the rivers aren't defined enough to be noticeable in the results. I think this can be solved with more training data including rivers. Due to the nature of how the training data was gathered, it's likely that we didn't get enough examples, and due to the subjective nature of myself reading the earth data and drawing the usermaps myself, I could have read them wrong and not painted them as detailed as they needed to be.
 
@@ -177,7 +177,7 @@
 	
 	We also created a small user survey to measure user preference between the 4 trained models. The survey was conducted through google forms and sent to the students in CSCI 567 (3D User Interfaces) through the piazza message board. I took a sample of 5 user maps, and for each one, I produced the ouput for each model and listed those as multiple choice answers.
 	
-	We recieved 11 responses. For all 5 samples, users preferred the output of Pix2Pix over the output of CycleGAN for each one. When looking at the results of the original training batch to the augmented training batch, users preferred the ouput of the original batch for 4 samples and the augmented batch for one of the samples.
+	We recieved 11 responses. For all 5 samples, users preferred the output of Pix2Pix over the output of CycleGAN. When looking at the results of the original training batch to the augmented training batch, users preferred the ouput of the original batch for 4 samples and the augmented batch for one of the samples.
 
 	\begin{table*}[h]
 		\begin{tabular}{c|c|c|c|c}
@@ -254,9 +254,6 @@
 	\begin{figure}[h!]
 	\includegraphics[width=2\columnwidth]{viz-3.png} 
 	\end{figure}
-	
-	
-	
 		
   
 \end{document}
