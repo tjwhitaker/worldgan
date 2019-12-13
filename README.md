@@ -11,6 +11,7 @@
 - Checkpoint 3: https://www.youtube.com/watch?v=YByEOAzlYIo
 - Checkpoint 4: https://www.youtube.com/watch?v=OBWqvTyUInY
 - Checkpoint 5: https://www.youtube.com/watch?v=SpBx00NE8ss
+- Checkpoint 6: https://www.youtube.com/watch?v=yTOHKh9kRGw
 - Demo: https://www.youtube.com/watch?v=pADYl1LY1hA
 
 ## Folder Structure
